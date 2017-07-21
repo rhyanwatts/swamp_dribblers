@@ -17,12 +17,14 @@ public class BikeSack {
     
     private Output leftIndicator;
     private Output rightIndicator;
+    private Output headLights; 
     
     
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
         rightIndicator = new Output("Left Indicator", Output.OFF, 1); //Is this meant to say right?
+        headLights = new Output("Head Lights", Output.OFF);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
