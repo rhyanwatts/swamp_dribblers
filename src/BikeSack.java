@@ -22,7 +22,7 @@ public class BikeSack {
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
-        rightIndicator = new Output("Left Indicator", Output.OFF, 1);
+        rightIndicator = new Output("Right Indicator", Output.OFF, 1);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
