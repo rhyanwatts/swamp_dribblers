@@ -39,6 +39,91 @@ public class IndicatorsTest {
         // Test turning off
         System.out.println("\nTurning Off");
         bikeSack.toggleIndicator(IndicatorDirection.NONE);
+        
+        // Test Fading Left
+        System.out.println("\nIndicating Left to Test Fading");
+        bikeSack.toggleIndicator(IndicatorDirection.LEFT);
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        
+     // Test Fading Right
+        System.out.println("\nIndicating Right to Test Fading");
+        bikeSack.toggleIndicator(IndicatorDirection.RIGHT);
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+        bikeSack.updateIndicatorInstruments();
+        bikeSack.updateDisplay();
+
     }
 
 }
