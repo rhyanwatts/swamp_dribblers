@@ -6,6 +6,9 @@ import java.util.Map;
 enum IndicatorDirection {
     LEFT, RIGHT, NONE
 }
+enum HeadLightLevel {
+	HIGH, LOW
+}
 
 public class BikeSack {
     
@@ -17,17 +20,20 @@ public class BikeSack {
     
     private Output leftIndicator;
     private Output rightIndicator;
-    private Output headLights; 
+    private Output headLightsHigh; 
+    private Output headLightsLow;
     
     
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
-        rightIndicator = new Output("Left Indicator", Output.OFF, 1); //Is this meant to say right?
-        headLights = new Output("Head Lights", Output.OFF);
+        rightIndicator = new Output("Left Indicator", Output.OFF, 1); 
+        headLightsHigh = new Output("Head Lights High", Output.OFF);
+        headLightsLow = new Output("Head Lights Low", Output.ON);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.HIGH_BEAM , new BooleanInstrument());
     }
     
     
@@ -76,23 +82,9 @@ public class BikeSack {
     // fade level.
     public void updateIndicatorInstruments() {
         // Left indicator
-        if(leftIndicator.isOn())
-        {
-            // Set the current to the output level of the indicator output
-            instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR).setCurrent
-                (leftIndicator.getOutputLevel());
-            
-            // Increase the current to increment the fade status, reset if at max
-            if(leftIndicator.getOutputLevel() == MAX_FADE_CURRENT) {
-                leftIndicator.setoutputLevel(leftIndicator.getIncrementStep());
-            } else {
-                leftIndicator.inc();
-            }
-            
-        } else {
-            // Turn off
-            instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR).setCurrent(Output.OFF);
-        }
+        // Set the current to the output level of the indicator output
+        instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
+             (headLightsLow.setoutputLevel(Output.ON));  
         
         // Right indicator
         if(rightIndicator.isOn())
@@ -112,6 +104,31 @@ public class BikeSack {
             // Turn off
             instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR).setCurrent(Output.OFF);
         }
+    }
+    
+    //Set head light to high or low
+    public void updateHeadLight (HeadLightLevel head) {
+    	
+    	//Set head light to low
+    	if (head == HeadLightLevel.LOW) {
+    		//Check if high beam is on, if it is set high beam to off and low beam to on
+    		if (headLightsHigh.getOutputLevel() == Output.ON) 
+    		{
+    			headLightsHigh.setoutputLevel(Output.OFF);
+    			headLightsLow.setoutputLevel(Output.ON);
+    		} 
+    		else 
+    		{
+    			headLightsLow.setoutputLevel(Output.ON);
+    		}
+    	}
+    	
+    	//Set head light to High
+    	if (head == HeadLightLevel.HIGH) {
+    		//Set head light to high
+    		headLightsLow.setoutputLevel(Output.OFF);
+    		headLightsHigh.setoutputLevel(Output.ON);
+    	}
     }
     
 }
