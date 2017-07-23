@@ -34,6 +34,7 @@ public class BikeSack {
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.HIGH_BEAM , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.LOW_BEAM , new BooleanInstrument());
     }
     
     
@@ -82,9 +83,23 @@ public class BikeSack {
     // fade level.
     public void updateIndicatorInstruments() {
         // Left indicator
-        // Set the current to the output level of the indicator output
-        instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
-             (headLightsLow.setoutputLevel(Output.ON));  
+        if(leftIndicator.isOn())
+        {
+            // Set the current to the output level of the indicator output
+            instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR).setCurrent
+                (leftIndicator.getOutputLevel());
+            
+            // Increase the current to increment the fade status, reset if at max
+            if(leftIndicator.getOutputLevel() == MAX_FADE_CURRENT) {
+                leftIndicator.setoutputLevel(leftIndicator.getIncrementStep());
+            } else {
+                leftIndicator.inc();
+            }
+            
+        } else {
+            // Turn off
+            instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR).setCurrent(Output.OFF);
+        }
         
         // Right indicator
         if(rightIndicator.isOn())
@@ -129,6 +144,27 @@ public class BikeSack {
     		headLightsLow.setoutputLevel(Output.OFF);
     		headLightsHigh.setoutputLevel(Output.ON);
     	}
+    	
+    	updateHeadLightInstruments();
+        updateDisplay();
     }
-    
+    public void updateHeadLightInstruments() {
+        // Left indicator
+        if (headLightsHigh.isOn())
+        {
+            // Set the current to the output level of the indicator output
+            instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM).setCurrent
+                (Output.ON);
+            instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
+            	(Output.OFF);
+        } 
+        else
+        {
+            // Set the current to the output level of the indicator output
+        	instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM).setCurrent
+            	(Output.OFF);
+        	instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
+                (Output.ON);
+        }
+    }
 }

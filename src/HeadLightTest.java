@@ -38,17 +38,26 @@ public class HeadLightTest {
         // Test turning off
         System.out.println("\nTurning Off");
         bikeSack.toggleIndicator(IndicatorDirection.NONE);
-        
+
         //Head Light Low
         System.out.println("\nLow Beam on");;
         bikeSack.updateHeadLight(HeadLightLevel.LOW);
+ 
         
         //Head Light High
         System.out.println("\nHigh Beam on");;
         bikeSack.updateHeadLight(HeadLightLevel.HIGH);
+
         
       //Head Light Low
         System.out.println("\nLow Beam on");;
         bikeSack.updateHeadLight(HeadLightLevel.LOW);
-    }
+
+
+    
+	}
+	
+	
+	
 }
+
