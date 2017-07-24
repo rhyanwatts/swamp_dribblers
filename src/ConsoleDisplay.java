@@ -9,26 +9,10 @@ public class ConsoleDisplay extends Display {
     // Print the console GUI
     public void updateConsole
         (Map<Instrument.InstrumentType, Instrument> instrumentPanel) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
             instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR));   
-=======
-    	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
-        drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
-            instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR)); 
->>>>>>> F5---Low/High-Beam-Headlights
-=======
-    	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
-        drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
-            instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR)); 
->>>>>>> F5---Low/High-Beam-Headlights
-=======
-    	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
-        drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
-            instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR)); 
->>>>>>> F5---Low/High-Beam-Headlights
+    	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), 
+    			instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
     }
 
     // Prints the indicators
@@ -74,14 +58,6 @@ public class ConsoleDisplay extends Display {
         }
         System.out.print("] ");
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> F5---Low/High-Beam-Headlights
-=======
->>>>>>> F5---Low/High-Beam-Headlights
     
     // Prints the head lights status
     private void drawHeadLights(Instrument high, Instrument low) {
@@ -108,7 +84,6 @@ public class ConsoleDisplay extends Display {
         	System.out.print(beamString);
         	System.out.println("] ");
         }
-        
     }
     
     // Prints an off (empty) indicator.
@@ -119,14 +94,6 @@ public class ConsoleDisplay extends Display {
         	System.out.print(" [");
         	System.out.print(" ");
         	System.out.println("] ");
-        }
-        
+        }  
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> F5---Low/High-Beam-Headlights
-=======
->>>>>>> F5---Low/High-Beam-Headlights
-=======
->>>>>>> F5---Low/High-Beam-Headlights
 }
