@@ -28,9 +28,9 @@
 public class Output {
 
    //set publicly accessible constants for simple output levels
-   public static final int off = 0;
-   public static final int med = 128;
-   public static final int on = 255;
+   public static final int OFF = 0;
+   public static final int MED = 128;
+   public static final int ON = 255;
 
    // declare private variables
    private String outputType;
@@ -40,7 +40,7 @@ public class Output {
    // Default Constructor
    public Output() {
       outputType = null;
-      outputLevel = off;
+      outputLevel = OFF;
       incrementStep = 25; //Default = approx 10 steps for full range
    }
 
@@ -82,7 +82,7 @@ public class Output {
 
    // Setter - set output level, returns true if successful
    public boolean setoutputLevel(int level) {
-      if (level >= off && level <= on) {
+      if (level >= OFF && level <= ON) {
          outputLevel = level;
       }
       boolean result = (outputLevel == level) ? true : false;
@@ -91,7 +91,7 @@ public class Output {
    
    // Setter - sets increment step
    public boolean setIncrementStep(int increment) {
-      if (increment >= off && increment <= on) {
+      if (increment >= OFF && increment <= ON) {
          incrementStep = increment;
       }
       boolean result = (incrementStep == increment) ? true : false;
@@ -101,10 +101,10 @@ public class Output {
    // Increments output Level. Returns True if successful.
    public boolean inc() {
       int temp = outputLevel;
-      if (outputLevel + incrementStep <= on) {
+      if (outputLevel + incrementStep <= ON) {
          outputLevel += incrementStep;
       } else {
-         outputLevel = on;
+         outputLevel = ON;
       }
       if (outputLevel > temp) {
          return true;
@@ -116,15 +116,23 @@ public class Output {
    // Decrements output Level. Returns True if successful.
    public boolean dec() {
       int temp = outputLevel;
-      if (outputLevel - incrementStep >= off) {
+      if (outputLevel - incrementStep >= OFF) {
          outputLevel -= incrementStep;
       } else {
-         outputLevel = off;
+         outputLevel = OFF;
       }
       if (outputLevel < temp) {
          return true;
       } else {
          return false;
       }
+   }
+   
+   // Checks if the output is currently on
+   public boolean isOn() {
+       if(outputLevel > 0) {
+           return true;
+       }
+       return false;
    }
 }
