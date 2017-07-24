@@ -27,7 +27,7 @@ public class BikeSack {
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
-        rightIndicator = new Output("Left Indicator", Output.OFF, 1); 
+        rightIndicator = new Output("Right Indicator", Output.OFF, 1); 
         headLightsHigh = new Output("Head Lights High", Output.OFF);
         headLightsLow = new Output("Head Lights Low", Output.ON);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
