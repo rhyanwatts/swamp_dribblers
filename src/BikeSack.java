@@ -7,6 +7,12 @@ enum IndicatorDirection {
     LEFT, RIGHT, NONE
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+enum HeadLightLevel {
+	HIGH, LOW
+}
+>>>>>>> F5---Low/High-Beam-Headlights
 =======
 enum HeadLightLevel {
 	HIGH, LOW
@@ -24,6 +30,11 @@ public class BikeSack {
     private Output leftIndicator;
     private Output rightIndicator;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    private Output headLightsHigh; 
+    private Output headLightsLow;
+>>>>>>> F5---Low/High-Beam-Headlights
 =======
     private Output headLightsHigh; 
     private Output headLightsLow;
@@ -34,12 +45,15 @@ public class BikeSack {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
 <<<<<<< HEAD
+<<<<<<< HEAD
         rightIndicator = new Output("Right Indicator", Output.OFF, 1);
 
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
 =======
+=======
+>>>>>>> F5---Low/High-Beam-Headlights
         rightIndicator = new Output("Left Indicator", Output.OFF, 1); 
         headLightsHigh = new Output("Head Lights High", Output.OFF);
         headLightsLow = new Output("Head Lights Low", Output.ON);
@@ -48,6 +62,9 @@ public class BikeSack {
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.HIGH_BEAM , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.LOW_BEAM , new BooleanInstrument());
+<<<<<<< HEAD
+>>>>>>> F5---Low/High-Beam-Headlights
+=======
 >>>>>>> F5---Low/High-Beam-Headlights
     }
     
@@ -136,7 +153,10 @@ public class BikeSack {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> F5---Low/High-Beam-Headlights
     //Set head light to high or low
     public void updateHeadLight (HeadLightLevel head) {
     	
@@ -183,5 +203,8 @@ public class BikeSack {
                 (Output.ON);
         }
     }
+<<<<<<< HEAD
+>>>>>>> F5---Low/High-Beam-Headlights
+=======
 >>>>>>> F5---Low/High-Beam-Headlights
 }
