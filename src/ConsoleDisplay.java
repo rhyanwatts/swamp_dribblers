@@ -75,7 +75,7 @@ public class ConsoleDisplay extends Display {
         System.out.println();
     }
     
-    // Prints an on indicator with the fade level input.
+    // Prints head light on
     private void drawHeadLightOn(String beamString) {
         
         for(int i = 0; i < 3; ++i)
@@ -86,7 +86,7 @@ public class ConsoleDisplay extends Display {
         }
     }
     
-    // Prints an off (empty) indicator.
+    // Prints an off (empty)
     private void drawHeadLightOff() {
         
         for(int i = 0; i < 3; ++i)
