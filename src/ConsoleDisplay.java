@@ -11,8 +11,14 @@ public class ConsoleDisplay extends Display {
         (Map<Instrument.InstrumentType, Instrument> instrumentPanel) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
             instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR));   
+=======
+    	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
+        drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
+            instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR)); 
+>>>>>>> F5---Low/High-Beam-Headlights
 =======
     	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
         drawIndicators(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR),
@@ -70,7 +76,10 @@ public class ConsoleDisplay extends Display {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> F5---Low/High-Beam-Headlights
 =======
 >>>>>>> F5---Low/High-Beam-Headlights
     
@@ -114,6 +123,9 @@ public class ConsoleDisplay extends Display {
         
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> F5---Low/High-Beam-Headlights
+=======
 >>>>>>> F5---Low/High-Beam-Headlights
 =======
 >>>>>>> F5---Low/High-Beam-Headlights
