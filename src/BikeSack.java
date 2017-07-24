@@ -6,6 +6,12 @@ import java.util.Map;
 enum IndicatorDirection {
     LEFT, RIGHT, NONE
 }
+<<<<<<< HEAD
+=======
+enum HeadLightLevel {
+	HIGH, LOW
+}
+>>>>>>> F5---Low/High-Beam-Headlights
 
 public class BikeSack {
     
@@ -17,16 +23,32 @@ public class BikeSack {
     
     private Output leftIndicator;
     private Output rightIndicator;
+<<<<<<< HEAD
+=======
+    private Output headLightsHigh; 
+    private Output headLightsLow;
+>>>>>>> F5---Low/High-Beam-Headlights
     
     
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
         leftIndicator = new Output("Left Indicator", Output.OFF, 1);
+<<<<<<< HEAD
         rightIndicator = new Output("Right Indicator", Output.OFF, 1);
 
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
+=======
+        rightIndicator = new Output("Left Indicator", Output.OFF, 1); 
+        headLightsHigh = new Output("Head Lights High", Output.OFF);
+        headLightsLow = new Output("Head Lights Low", Output.ON);
+        instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
+        instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.HIGH_BEAM , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.LOW_BEAM , new BooleanInstrument());
+>>>>>>> F5---Low/High-Beam-Headlights
     }
     
     
@@ -113,4 +135,53 @@ public class BikeSack {
         }
     }
     
+<<<<<<< HEAD
+=======
+    //Set head light to high or low
+    public void updateHeadLight (HeadLightLevel head) {
+    	
+    	//Set head light to low
+    	if (head == HeadLightLevel.LOW) {
+    		//Check if high beam is on, if it is set high beam to off and low beam to on
+    		if (headLightsHigh.getOutputLevel() == Output.ON) 
+    		{
+    			headLightsHigh.setoutputLevel(Output.OFF);
+    			headLightsLow.setoutputLevel(Output.ON);
+    		} 
+    		else 
+    		{
+    			headLightsLow.setoutputLevel(Output.ON);
+    		}
+    	}
+    	
+    	//Set head light to High
+    	if (head == HeadLightLevel.HIGH) {
+    		//Set head light to high
+    		headLightsLow.setoutputLevel(Output.OFF);
+    		headLightsHigh.setoutputLevel(Output.ON);
+    	}
+    	
+    	updateHeadLightInstruments();
+        updateDisplay();
+    }
+    public void updateHeadLightInstruments() {
+        // Left indicator
+        if (headLightsHigh.isOn())
+        {
+            // Set the current to the output level of the indicator output
+            instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM).setCurrent
+                (Output.ON);
+            instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
+            	(Output.OFF);
+        } 
+        else
+        {
+            // Set the current to the output level of the indicator output
+        	instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM).setCurrent
+            	(Output.OFF);
+        	instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM).setCurrent
+                (Output.ON);
+        }
+    }
+>>>>>>> F5---Low/High-Beam-Headlights
 }
