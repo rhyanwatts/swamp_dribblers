@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 // TODO: Move this...Not sure which class to put this in? Maybe output?
@@ -167,4 +168,55 @@ public class BikeSack {
                 (Output.ON);
         }
     }
+	
+	public static void main(String[] args) {
+    	
+    	BikeSack bikeSack = new BikeSack();
+    	Scanner input = new Scanner(System.in);
+    	String selection;
+    	ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+    	
+    	do{   	
+	    	consoleDisplay.basicGui(bikeSack.instrumentPanel);
+	    	selection = input.nextLine();		
+
+			switch (selection.toUpperCase()) {
+				case "B":
+					//Brake Light
+					break;
+				case "L":
+					//Left Indicator
+					bikeSack.toggleIndicator(IndicatorDirection.LEFT);
+					break;
+				case "R":
+					//Right Indicator
+					bikeSack.toggleIndicator(IndicatorDirection.RIGHT);
+					break;
+				case "H":
+					//Head Light Toggle
+					bikeSack.updateHeadLight(HeadLightLevel.LOW);
+					break;
+				case "{":
+					//Fuel Level UP
+					break;
+				case "}":
+					//Fuel Level DOWN
+					break;
+				case "+":
+					//Engine Temp UP
+					break;
+				case "-":
+					//Engine Temp DOWN
+					break;
+				case "X":
+					//Exit application
+					break;
+				default:
+					System.out.println("Invalid selection, please try again.");
+					break;
+			}
+		}while(!selection.equals("X"));
+    	input.close();
+    }
 }
+
