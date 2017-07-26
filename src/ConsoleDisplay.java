@@ -62,27 +62,19 @@ public class ConsoleDisplay extends Display {
     
     //Prints the head lights status
     /*
-     * TODO: Check with Rhyan if this is OK.
      * CHANGE: Removed Reference to drawHeadLightOn/Off
+     * CHANGE: fixed up logic
      */
     private String drawHeadLights(Instrument high, Instrument low) {
         String state;
-    	if(high.getCurrent() == Output.ON) {
-            //drawHeadLightOn("High Beam");
+        
+    	if (high.getCurrent() == Output.ON && low.getCurrent() == Output.OFF) {
             state = "HIGH BEAM";
-        } else {
-        	//drawHeadLightOff();
-        	state = "OFF";
-        }
-            
-        if(low.getCurrent() == Output.ON) {
-        	//drawHeadLightOn("Low Beam");
+        } else if (high.getCurrent() == Output.OFF && low.getCurrent() == Output.ON){
         	state = "LOW BEAM";
         } else {
-        	//drawHeadLightOff();
-        	state = "OFF";
+        	state = "INVALID";
         }
-        //System.out.println();
         return state;
     }
     
