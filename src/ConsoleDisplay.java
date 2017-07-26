@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class ConsoleDisplay extends Display {
@@ -14,7 +15,7 @@ public class ConsoleDisplay extends Display {
     	drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM), 
     			instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
     }
-
+     
     // Prints the indicators
     private void drawIndicators(Instrument left, Instrument right) {
         if(left.getCurrent() > 0) {
@@ -59,20 +60,30 @@ public class ConsoleDisplay extends Display {
         System.out.print("] ");
     }
     
-    // Prints the head lights status
-    private void drawHeadLights(Instrument high, Instrument low) {
-        if(high.getCurrent() == Output.ON) {
-            drawHeadLightOn("High Beam");
+    //Prints the head lights status
+    /*
+     * TODO: Check with Rhyan if this is OK.
+     * CHANGE: Removed Reference to drawHeadLightOn/Off
+     */
+    private String drawHeadLights(Instrument high, Instrument low) {
+        String state;
+    	if(high.getCurrent() == Output.ON) {
+            //drawHeadLightOn("High Beam");
+            state = "HIGH BEAM";
         } else {
-        	drawHeadLightOff();
+        	//drawHeadLightOff();
+        	state = "OFF";
         }
             
         if(low.getCurrent() == Output.ON) {
-        	drawHeadLightOn("Low Beam");
+        	//drawHeadLightOn("Low Beam");
+        	state = "LOW BEAM";
         } else {
-        	drawHeadLightOff();
+        	//drawHeadLightOff();
+        	state = "OFF";
         }
-        System.out.println();
+        //System.out.println();
+        return state;
     }
     
     // Prints an on indicator with the fade level input.
@@ -96,4 +107,54 @@ public class ConsoleDisplay extends Display {
         	System.out.println("] ");
         }  
     }
+    
+    //Return OFF/ON state for Indicator Instruments
+    private String getIndicatorState(Instrument indicator){
+    	String state;
+    	if(indicator.getCurrent() >0){
+    		state = "ON";
+    	}
+    	else
+    		state = "OFF";
+    	
+    	return state;
+    }
+   	
+	//Outputs Basic GUI to console
+	public void basicGui(Map<Instrument.InstrumentType, Instrument> instrumentPanel)
+    {	
+		String leftIndicator = getIndicatorState(instrumentPanel.get(Instrument.InstrumentType.LEFT_INDICATOR));
+		String rightIndicator = getIndicatorState(instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR));
+		String highBeam = drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM),
+											instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
+		
+		//Menu Options output
+		System.out.println("The Bike Sack");
+		System.out.println();
+		System.out.println("B= Brake Lights [" + "]");
+		System.out.println("L= Left Indicator [" + leftIndicator + "]");
+		System.out.println("R= Right Indicator [" + rightIndicator + "]");
+		System.out.println("H= Highbeam Toggle [" + highBeam + "]");
+		System.out.println("{= Fuel Level UP");
+		System.out.println("}= Fuel Level DOWN");
+		System.out.println("+= Engine Temp UP");
+		System.out.println("-= Engine Temp DOWN");
+		System.out.println("T= Trip Reset");
+		System.out.println("O= Simulate Odemeter Increment");
+		System.out.println("W= Simulate Odemeter Increment Warp Speed (100 Wheel Rotations)");
+		System.out.println("X= Exit");
+		System.out.println();
+		
+		//Instrument Outputs
+		//Each Row is 60 Chars wide, Column 20 Chars Wide, 10 Chars space between columns 
+		System.out.println("Fuel=0% " + String.format("%12s", "") + "Engine Temp=0c ");
+		System.out.println("0[----------]100" + String.format("%4s", "") + "min[----------]max");
+		System.out.println();
+		System.out.println("Odometer=0000000" + String.format("%4s", "") + "Trip Meter=0");
+		System.out.println();
+		System.out.println("Fuel Usage= 0.0Km/100L");
+		System.out.println();
+		System.out.println("Please enter a selection:");			
+
+	}
 }
