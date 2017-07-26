@@ -78,28 +78,6 @@ public class ConsoleDisplay extends Display {
         return state;
     }
     
-    // Prints head light on
-    private void drawHeadLightOn(String beamString) {
-        
-        for(int i = 0; i < 3; ++i)
-        {
-        	System.out.print(" [");
-        	System.out.print(beamString);
-        	System.out.println("] ");
-        }
-    }
-    
-    // Prints an off (empty)
-    private void drawHeadLightOff() {
-        
-        for(int i = 0; i < 3; ++i)
-        {
-        	System.out.print(" [");
-        	System.out.print(" ");
-        	System.out.println("] ");
-        }  
-    }
-    
     //Return OFF/ON state for Indicator Instruments
     private String getIndicatorState(Instrument indicator){
     	String state;
