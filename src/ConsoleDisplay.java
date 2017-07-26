@@ -66,15 +66,13 @@ public class ConsoleDisplay extends Display {
      * CHANGE: fixed up logic
      */
     private String drawHeadLights(Instrument high, Instrument low) {
-        String state;
+        String state = "LOW BEAM";
         
     	if (high.getCurrent() == Output.ON && low.getCurrent() == Output.OFF) {
             state = "HIGH BEAM";
         } else if (high.getCurrent() == Output.OFF && low.getCurrent() == Output.ON){
         	state = "LOW BEAM";
-        } else {
-        	state = "INVALID";
-        }
+        } 
         return state;
     }
     
