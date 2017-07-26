@@ -135,6 +135,8 @@ public class BikeSack {
     	{
     		headLightsHigh.setoutputLevel(Output.ON);
     		headLightsLow.setoutputLevel(Output.OFF);
+    	} else {
+    		headLightsLow.setoutputLevel(Output.ON);
     	}
     	
     	updateHeadLightInstruments();
