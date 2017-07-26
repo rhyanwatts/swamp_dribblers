@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,6 +17,25 @@ public class BikeSack {
     
     // Should this go in output class?
     public static final int MAX_FADE_CURRENT = 10;
+    
+    // Set up constants for the keyboard inputs
+    public static final String LEFT_INDICATOR_KEY = "L";
+    public static final String RIGHT_INDICATOR_KEY = "R";
+    public static final String HIGH_BEAM_KEY = "H";
+    public static final String BRAKE_KEY = "B";
+    public static final String TEMPERATURE_INCREASE_KEY = "+";
+    public static final String TEMPERATURE_DECREASE_KEY = "-";
+    public static final String FUEL_INCREASE_KEY = "}";
+    public static final String FUEL_DECREASE_KEY = "{";
+    public static final String TRIP_RESET_KEY = "T";
+    public static final String ODOMETER_INCREASE_KEY = "O";
+    public static final String ODOMETER_WARP_KEY = "W";
+    public static final String EXIT_KEY = "X";
+    
+    // Define the sensor types, will be used in a map to store the sensors
+    public static enum CONNECTED_SENSORS {
+    	LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, TEMPERATURE, FUEL, TRIP, ODOMETER
+    }
     
     private ConsoleDisplay consoleDisplay;
     private Map<Instrument.InstrumentType, Instrument> instrumentPanel;
@@ -168,55 +188,114 @@ public class BikeSack {
                 (Output.ON);
         }
     }
-	
-	public static void main(String[] args) {
-    	
-    	BikeSack bikeSack = new BikeSack();
-    	Scanner input = new Scanner(System.in);
-    	String selection;
-    	ConsoleDisplay consoleDisplay = new ConsoleDisplay();
-    	
-    	do{   	
-	    	consoleDisplay.basicGui(bikeSack.instrumentPanel);
-	    	selection = input.nextLine();		
 
-			switch (selection.toUpperCase()) {
-				case "B":
-					//Brake Light
-					break;
-				case "L":
-					//Left Indicator
-					bikeSack.toggleIndicator(IndicatorDirection.LEFT);
-					break;
-				case "R":
-					//Right Indicator
-					bikeSack.toggleIndicator(IndicatorDirection.RIGHT);
-					break;
-				case "H":
-					//Head Light Toggle
-					bikeSack.updateHeadLight(HeadLightLevel.LOW);
-					break;
-				case "{":
-					//Fuel Level UP
-					break;
-				case "}":
-					//Fuel Level DOWN
-					break;
-				case "+":
-					//Engine Temp UP
-					break;
-				case "-":
-					//Engine Temp DOWN
-					break;
-				case "X":
-					//Exit application
-					break;
-				default:
-					System.out.println("Invalid selection, please try again.");
-					break;
+	public static String getUserInput(Scanner input) {
+		String selection = input.nextLine();
+		if (selection.length() < 1) {
+			selection = " ";
+		}
+		selection = selection.substring(0, 1);
+		return selection.toUpperCase();
+	}
+
+	public static void setSensors(String selection, Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
+		switch (selection) {
+		case BRAKE_KEY:
+			// Brake Light
+			sensors.get(CONNECTED_SENSORS.BRAKE).toggle();
+			break;
+		case LEFT_INDICATOR_KEY:
+			// Left Indicator
+			sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).toggle();
+			break;
+		case RIGHT_INDICATOR_KEY:
+			// Right Indicator
+			sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).toggle();
+			break;
+		case HIGH_BEAM_KEY:
+			// High Beam Toggle
+			sensors.get(CONNECTED_SENSORS.HIGH_BEAM).toggle();
+			break;
+		case FUEL_INCREASE_KEY:
+			// Fuel Level UP
+			sensors.get(CONNECTED_SENSORS.FUEL).increase();
+			break;
+		case FUEL_DECREASE_KEY:
+			// Fuel Level DOWN
+			sensors.get(CONNECTED_SENSORS.FUEL).decrease();
+			break;
+		case TEMPERATURE_INCREASE_KEY:
+			// Engine Temp UP
+			sensors.get(CONNECTED_SENSORS.TEMPERATURE).increase();
+			break;
+		case TEMPERATURE_DECREASE_KEY:
+			// Engine Temp DOWN
+			sensors.get(CONNECTED_SENSORS.TEMPERATURE).decrease();
+			break;
+		case EXIT_KEY:
+			// Exit application
+			break;
+		default:
+			System.out.println("Invalid selection, please try again.");
+			break;
+		}
+	}
+	
+	private static void initialiseSensors(Map<CONNECTED_SENSORS, Sensor> sensors) {
+		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 255, 25, 0));
+		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(0, 125, 80));
+		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
+	}
+
+	private static void setDummySensorValues(Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
+		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
+		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(125);
+		sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(0);
+		sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).setCurrent(0);
+		sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(0);
+		sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).setCurrent(0);
+		sensors.get(CONNECTED_SENSORS.TEMPERATURE).setCurrent(60);
+		sensors.get(CONNECTED_SENSORS.TRIP).setCurrent(0);
+	}
+
+	public static void main(String[] args) {
+		BikeSack bikeSack = new BikeSack();
+		Map<CONNECTED_SENSORS, Sensor> sensors = new HashMap<>();
+		Scanner input = new Scanner(System.in);
+		String selection;
+		ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+
+		// Set up sensors
+		initialiseSensors(sensors);
+
+		// Set some reasonable values for testing
+		try {
+			setDummySensorValues(sensors);
+		} catch (SensorException exception) {
+			System.out.println("Error setting dummy sensor values");
+			System.out.println(exception.getMessage());
+		}
+
+		do {
+			consoleDisplay.basicGui(bikeSack.instrumentPanel);
+
+			selection = getUserInput(input);
+
+			try {
+				setSensors(selection, sensors);
+			} catch (SensorException exception) {
+				System.out.println("Error setting sensor value");
+				System.out.println(exception.getMessage());
 			}
-		}while(!selection.equals("X"));
-    	input.close();
-    }
+
+		} while (!selection.equals(EXIT_KEY));
+
+		input.close();
+	}
 }
 
