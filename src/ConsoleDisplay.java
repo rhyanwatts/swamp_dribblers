@@ -89,6 +89,13 @@ public class ConsoleDisplay extends Display {
     	
     	return state;
     }
+    
+    //Return Off/On state for BrakeLight Instrument
+    private String getBrakeState(Instrument brake) {
+       String state;
+       state = (brake.getCurrent() > 0) ? "ON": "OFF";
+       return state;
+    }
    	
 	//Outputs Basic GUI to console
 	public void basicGui(Map<Instrument.InstrumentType, Instrument> instrumentPanel)
@@ -97,11 +104,12 @@ public class ConsoleDisplay extends Display {
 		String rightIndicator = getIndicatorState(instrumentPanel.get(Instrument.InstrumentType.RIGHT_INDICATOR));
 		String highBeam = drawHeadLights(instrumentPanel.get(Instrument.InstrumentType.HIGH_BEAM),
 											instrumentPanel.get(Instrument.InstrumentType.LOW_BEAM));
+		String brakeLight = getBrakeState(instrumentPanel.get(Instrument.InstrumentType.BRAKE_LIGHT));
 		
 		//Menu Options output
 		System.out.println("The Bike Sack");
 		System.out.println();
-		System.out.println("B= Brake Lights [" + "]");
+		System.out.println("B= Brake Lights [" + brakeLight + "]");
 		System.out.println("L= Left Indicator [" + leftIndicator + "]");
 		System.out.println("R= Right Indicator [" + rightIndicator + "]");
 		System.out.println("H= Highbeam Toggle [" + highBeam + "]");
