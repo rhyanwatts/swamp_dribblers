@@ -123,27 +123,18 @@ public class BikeSack {
     }
     
     //Set head light to high or low
-    public void updateHeadLight (HeadLightLevel head) {
+    public void updateHeadLight () {
     	
     	//Set head light to low
-    	if (head == HeadLightLevel.LOW) {
+    	if (headLightsHigh.getOutputLevel() == Output.ON && headLightsLow.getOutputLevel() == Output.OFF) {
     		//Check if high beam is on, if it is set high beam to off and low beam to on
-    		if (headLightsHigh.getOutputLevel() == Output.ON) 
-    		{
-    			headLightsHigh.setoutputLevel(Output.OFF);
-    			headLightsLow.setoutputLevel(Output.ON);
-    		} 
-    		else 
-    		{
-    			headLightsLow.setoutputLevel(Output.ON);
-    		}
-    	}
-    	
-    	//Set head light to High
-    	if (head == HeadLightLevel.HIGH) {
-    		//Set head light to high
-    		headLightsLow.setoutputLevel(Output.OFF);
+    		headLightsHigh.setoutputLevel(Output.OFF);
+    		headLightsLow.setoutputLevel(Output.ON);
+    	} 
+    	else if (headLightsHigh.getOutputLevel() == Output.OFF && headLightsLow.getOutputLevel() == Output.ON)
+    	{
     		headLightsHigh.setoutputLevel(Output.ON);
+    		headLightsLow.setoutputLevel(Output.OFF);
     	}
     	
     	updateHeadLightInstruments();
@@ -194,7 +185,7 @@ public class BikeSack {
 					break;
 				case "H":
 					//Head Light Toggle
-					bikeSack.updateHeadLight(HeadLightLevel.LOW);
+					bikeSack.updateHeadLight();
 					break;
 				case "{":
 					//Fuel Level UP
