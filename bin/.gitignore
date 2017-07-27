@@ -1,3 +1,6 @@
+/BikeSack$CONNECTED_OUTPUTS.class
+/BikeSack$CONNECTED_SENSORS.class
+/BikeSack$INSTRUMENTS.class
 /BikeSack.class
 /BooleanInstrument.class
 /ConsoleDisplay.class
@@ -6,11 +9,9 @@
 /HeadLightTest.class
 /IndicatorDirection.class
 /IndicatorsTest.class
-/Instrument$InstrumentType.class
 /Instrument.class
 /Output.class
 /OutputClassTest.class
 /Sensor.class
 /SensorException.class
-/BikeSack$CONNECTED_SENSORS.class
-/BikeSack$CONNECTED_OUTPUTS.class
+/BikeSack/

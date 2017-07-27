@@ -1,3 +1,5 @@
+package BikeSack;
+
 @SuppressWarnings("serial")
 public class SensorException extends Exception {
 

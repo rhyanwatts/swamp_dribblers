@@ -1,6 +1,8 @@
+package BikeSack;
+
 public class Sensor {
 	public static final int INCREMENT = 25;
-	
+
 	private int min;
 	private int max;
 	private int current = min;
@@ -77,11 +79,11 @@ public class Sensor {
 			setCurrent(max);
 		}
 	}
-	
+
 	public void increase() throws SensorException {
 		setCurrent(getCurrent() + INCREMENT);
 	}
-	
+
 	public void decrease() throws SensorException {
 		setCurrent(getCurrent() - INCREMENT);
 	}
