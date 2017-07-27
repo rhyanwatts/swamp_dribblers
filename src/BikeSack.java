@@ -24,6 +24,7 @@ public class BikeSack {
     private Output rightIndicator;
     private Output headLightsHigh; 
     private Output headLightsLow;
+    private static Output brakeLight;
    
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
@@ -31,11 +32,13 @@ public class BikeSack {
         rightIndicator = new Output("Right Indicator", Output.OFF, 1);
         headLightsHigh = new Output("Head Lights High", Output.OFF);
         headLightsLow = new Output("Head Lights Low", Output.ON);
+        brakeLight = new Output("Brake Light",Output.OFF,255);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.HIGH_BEAM , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.LOW_BEAM , new BooleanInstrument());
+        instrumentPanel.put(Instrument.InstrumentType.BRAKE_LIGHT, new BooleanInstrument());
     }
     
     
@@ -161,6 +164,12 @@ public class BikeSack {
                 (Output.ON);
         }
     }
+    
+    public void brake() {
+       brakeLight.toggle();
+       instrumentPanel.get(Instrument.InstrumentType.BRAKE_LIGHT).setCurrent(brakeLight.getOutputLevel());
+       updateDisplay();
+    }
 	
 	public static void main(String[] args) {
     	
@@ -176,6 +185,7 @@ public class BikeSack {
 			switch (selection.toUpperCase()) {
 				case "B":
 					//Brake Light
+				   bikeSack.brake();
 					break;
 				case "L":
 					//Left Indicator
