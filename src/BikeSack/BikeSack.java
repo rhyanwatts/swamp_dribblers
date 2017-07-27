@@ -38,6 +38,7 @@ public class BikeSack {
 		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE
 	}
 
+	// Get the user's menu selection
 	public static String getUserInput(Scanner input) {
 		String selection = input.nextLine();
 		if (selection.length() < 1) {
@@ -47,6 +48,7 @@ public class BikeSack {
 		return selection.toUpperCase();
 	}
 
+	// Adjust the sensors base on the selection
 	public static void setSensors(String selection, Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
 		switch (selection) {
 		case BRAKE_KEY:
@@ -116,6 +118,7 @@ public class BikeSack {
 		}
 	}
 
+	// Set up the sensors
 	private static void initialiseSensors(Map<CONNECTED_SENSORS, Sensor> sensors) {
 		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 255, 25, 0));
@@ -127,6 +130,7 @@ public class BikeSack {
 		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
 	}
 
+	// Set up the outputs
 	private static void initialiseOutputs(Map<CONNECTED_OUTPUTS, Output> outputs) {
 		outputs.put(CONNECTED_OUTPUTS.LEFT_INDICATOR, new Output("Left Indicator", Output.OFF));
 		outputs.put(CONNECTED_OUTPUTS.RIGHT_INDICATOR, new Output("Right Indicator", Output.OFF));
@@ -134,6 +138,7 @@ public class BikeSack {
 		outputs.put(CONNECTED_OUTPUTS.BRAKE, new Output("Brake Light", Output.OFF));
 	}
 
+	// Set up the instruments
 	private static void initialiseInstruments(Map<INSTRUMENTS, Instrument> instruments) {
 		instruments.put(INSTRUMENTS.LEFT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
@@ -141,6 +146,7 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
 	}
 
+	// Set the sensors to have plausable defaults since we don't have real sensors
 	private static void setDummySensorValues(Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
 		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(125);
@@ -152,6 +158,7 @@ public class BikeSack {
 		sensors.get(CONNECTED_SENSORS.TRIP).setCurrent(0);
 	}
 
+	// Set the outputs based on the inputs
 	private static void updateOutputs(Map<CONNECTED_SENSORS, Sensor> sensors, Map<CONNECTED_OUTPUTS, Output> outputs) {
 		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
 			for (CONNECTED_OUTPUTS outputName : outputs.keySet()) {
@@ -173,6 +180,7 @@ public class BikeSack {
 		}
 	}
 
+	// Set the instruments based on the inputs
 	private static void updateInstruments(Map<CONNECTED_SENSORS, Sensor> sensors,
 			Map<INSTRUMENTS, Instrument> instruments) {
 		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
