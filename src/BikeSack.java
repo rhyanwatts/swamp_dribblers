@@ -1,4 +1,3 @@
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -32,9 +31,14 @@ public class BikeSack {
     public static final String ODOMETER_WARP_KEY = "W";
     public static final String EXIT_KEY = "X";
     
-    // Define the sensor types, will be used in a map to store the sensors
+    // Define the connected sensors, will be used in a map to store the sensors
     public static enum CONNECTED_SENSORS {
     	LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, TEMPERATURE, FUEL, TRIP, ODOMETER
+    }
+    
+    // Define the connected outputs, will be used in a map to store the outputs
+    public static enum CONNECTED_OUTPUTS {
+    	LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM
     }
     
     private ConsoleDisplay consoleDisplay;
@@ -47,10 +51,6 @@ public class BikeSack {
    
     public BikeSack() {
         consoleDisplay = new ConsoleDisplay();
-        leftIndicator = new Output("Left Indicator", Output.OFF, 1);
-        rightIndicator = new Output("Right Indicator", Output.OFF, 1);
-        headLightsHigh = new Output("Head Lights High", Output.OFF);
-        headLightsLow = new Output("Head Lights Low", Output.ON);
         instrumentPanel = new HashMap<Instrument.InstrumentType, Instrument>();
         instrumentPanel.put(Instrument.InstrumentType.LEFT_INDICATOR , new BooleanInstrument());
         instrumentPanel.put(Instrument.InstrumentType.RIGHT_INDICATOR , new BooleanInstrument());
@@ -251,6 +251,12 @@ public class BikeSack {
 		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(0, 125, 80));
 		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
 	}
+	
+	private static void initialiseOutputs(Map<CONNECTED_OUTPUTS, Output> outputs) {
+		outputs.put(CONNECTED_OUTPUTS.LEFT_INDICATOR, new Output("Left Indicator", Output.OFF, 1));
+		outputs.put(CONNECTED_OUTPUTS.RIGHT_INDICATOR, new Output("Right Indicator", Output.OFF, 1));
+		outputs.put(CONNECTED_OUTPUTS.HIGH_BEAM, new Output("Head Lights High", Output.OFF));
+	}
 
 	private static void setDummySensorValues(Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
 		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
@@ -262,16 +268,43 @@ public class BikeSack {
 		sensors.get(CONNECTED_SENSORS.TEMPERATURE).setCurrent(60);
 		sensors.get(CONNECTED_SENSORS.TRIP).setCurrent(0);
 	}
+	
+	private static void updateOutputs(Map<CONNECTED_SENSORS, Sensor> sensors, Map<CONNECTED_OUTPUTS, Output> outputs) {
+		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
+			for (CONNECTED_OUTPUTS outputName : outputs.keySet()) {
+				if (sensorName.name().equals(outputName.name())) {
+					Sensor sensor = sensors.get(sensorName);
+					int sensorValue = sensor.getCurrent();
+					
+					Output output = outputs.get(outputName);
+					int outputValue = output.getOutputLevel();
+					
+					// Convert the Sensor range to the Output range
+					int sensorToOutput = (sensorValue / sensor.getMax()) * Output.ON;
+					
+					if (sensorToOutput != outputValue) {
+						outputs.get(outputName).setoutputLevel(sensorToOutput);
+					}
+					
+					
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		BikeSack bikeSack = new BikeSack();
 		Map<CONNECTED_SENSORS, Sensor> sensors = new HashMap<>();
+		Map<CONNECTED_OUTPUTS, Output> outputs = new HashMap<>();
 		Scanner input = new Scanner(System.in);
 		String selection;
 		ConsoleDisplay consoleDisplay = new ConsoleDisplay();
 
 		// Set up sensors
 		initialiseSensors(sensors);
+		
+		// Set up the outputs
+		initialiseOutputs(outputs);
 
 		// Set some reasonable values for testing
 		try {
@@ -282,20 +315,30 @@ public class BikeSack {
 		}
 
 		do {
+			// Set the outputs based on the sensor values
+			updateOutputs(sensors, outputs);
+			
+			// Show the interface
 			consoleDisplay.basicGui(bikeSack.instrumentPanel);
 
+			// Get user input
 			selection = getUserInput(input);
-
+			
+			// Set the sensors based on user input. Would not be necessary once using real sensors
 			try {
 				setSensors(selection, sensors);
 			} catch (SensorException exception) {
 				System.out.println("Error setting sensor value");
 				System.out.println(exception.getMessage());
 			}
-
+			
 		} while (!selection.equals(EXIT_KEY));
 
+		// Close the scanner
 		input.close();
 	}
+
+
+
 }
 

@@ -13,3 +13,4 @@
 /Sensor.class
 /SensorException.class
 /BikeSack$CONNECTED_SENSORS.class
+/BikeSack$CONNECTED_OUTPUTS.class
