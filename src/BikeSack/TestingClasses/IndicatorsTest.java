@@ -1,3 +1,5 @@
+package BikeSack.TestingClasses;
+import BikeSack.BikeSack;
 
 public class IndicatorsTest {
 
