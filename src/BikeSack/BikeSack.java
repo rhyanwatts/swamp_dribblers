@@ -38,18 +38,28 @@ public class BikeSack {
 		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE
 	}
 
-	// Get the user's menu selection
-	public static String getUserInput(Scanner input) {
-		String selection = input.nextLine();
-		if (selection.length() < 1) {
-			selection = " ";
-		}
-		selection = selection.substring(0, 1);
-		return selection.toUpperCase();
-	}
+	// Private member variables
+	private Map<CONNECTED_SENSORS, Sensor> sensors = new HashMap<>();
+    private Map<CONNECTED_OUTPUTS, Output> outputs = new HashMap<>();
+    private Map<INSTRUMENTS, Instrument> instruments = new HashMap<>();
+    private Display display = new ConsoleDisplay();
+	
+    // Constructor
+    public BikeSack (){
+        // Set up sensors
+        initialiseSensors();
+
+        // Set up the outputs
+        initialiseOutputs();
+
+        // Set up the instruments
+        initialiseInstruments();
+    }
+     
+
 
 	// Adjust the sensors base on the selection
-	public static void setSensors(String selection, Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
+	public void setSensors(String selection) throws SensorException {
 		switch (selection) {
 		case BRAKE_KEY:
 			// Brake Light
@@ -119,7 +129,7 @@ public class BikeSack {
 	}
 
 	// Set up the sensors
-	private static void initialiseSensors(Map<CONNECTED_SENSORS, Sensor> sensors) {
+	private void initialiseSensors() {
 		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 255, 25, 0));
 		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
@@ -131,7 +141,7 @@ public class BikeSack {
 	}
 
 	// Set up the outputs
-	private static void initialiseOutputs(Map<CONNECTED_OUTPUTS, Output> outputs) {
+	private void initialiseOutputs() {
 		outputs.put(CONNECTED_OUTPUTS.LEFT_INDICATOR, new Output("Left Indicator", Output.OFF));
 		outputs.put(CONNECTED_OUTPUTS.RIGHT_INDICATOR, new Output("Right Indicator", Output.OFF));
 		outputs.put(CONNECTED_OUTPUTS.HIGH_BEAM, new Output("Head Lights High", Output.OFF));
@@ -139,7 +149,7 @@ public class BikeSack {
 	}
 
 	// Set up the instruments
-	private static void initialiseInstruments(Map<INSTRUMENTS, Instrument> instruments) {
+	private void initialiseInstruments() {
 		instruments.put(INSTRUMENTS.LEFT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
@@ -147,7 +157,7 @@ public class BikeSack {
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors
-	private static void setDummySensorValues(Map<CONNECTED_SENSORS, Sensor> sensors) throws SensorException {
+	private void setDummySensorValues() throws SensorException {
 		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(125);
 		sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(0);
@@ -159,7 +169,7 @@ public class BikeSack {
 	}
 
 	// Set the outputs based on the inputs
-	private static void updateOutputs(Map<CONNECTED_SENSORS, Sensor> sensors, Map<CONNECTED_OUTPUTS, Output> outputs) {
+	private void updateOutputs() {
 		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
 			for (CONNECTED_OUTPUTS outputName : outputs.keySet()) {
 				if (sensorName.name().equals(outputName.name())) {
@@ -181,8 +191,7 @@ public class BikeSack {
 	}
 
 	// Set the instruments based on the inputs
-	private static void updateInstruments(Map<CONNECTED_SENSORS, Sensor> sensors,
-			Map<INSTRUMENTS, Instrument> instruments) {
+	private void updateInstruments() {
 		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
 			for (INSTRUMENTS instrumentName : instruments.keySet()) {
 				if (sensorName.name().equals(instrumentName.name())) {
@@ -200,26 +209,31 @@ public class BikeSack {
 		}
 	}
 
+	private void showDisplay() {
+        display.show(instruments); 
+    }
+	
+	// Get the user's menu selection
+    public static String getUserInput(Scanner input) {
+        String selection = input.nextLine();
+        if (selection.length() < 1) {
+            selection = " ";
+        }
+        selection = selection.substring(0, 1);
+        return selection.toUpperCase();
+    }
+	
 	public static void main(String[] args) {
-		Map<CONNECTED_SENSORS, Sensor> sensors = new HashMap<>();
-		Map<CONNECTED_OUTPUTS, Output> outputs = new HashMap<>();
-		Map<INSTRUMENTS, Instrument> instruments = new HashMap<>();
+		
 		Scanner input = new Scanner(System.in);
 		String selection;
-		Display display = new ConsoleDisplay();
-
-		// Set up sensors
-		initialiseSensors(sensors);
-
-		// Set up the outputs
-		initialiseOutputs(outputs);
-
-		// Set up the instruments
-		initialiseInstruments(instruments);
+		
+		BikeSack bikeSack = new BikeSack();
+		
 
 		// Set some reasonable values for testing
 		try {
-			setDummySensorValues(sensors);
+			bikeSack.setDummySensorValues();
 		} catch (SensorException exception) {
 			System.out.println("Error setting dummy sensor values");
 			System.out.println(exception.getMessage());
@@ -227,13 +241,13 @@ public class BikeSack {
 
 		do {
 			// Set the outputs based on the sensor values
-			updateOutputs(sensors, outputs);
+			bikeSack.updateOutputs();
 
 			// Set the instruments based on the sensor values
-			updateInstruments(sensors, instruments);
+			bikeSack.updateInstruments();
 
-			// Show the interface
-			display.show(instruments);
+			// Show the interface 
+			bikeSack.showDisplay();
 
 			// Get user input
 			selection = getUserInput(input);
@@ -241,7 +255,7 @@ public class BikeSack {
 			// Set the sensors based on user input. Would not be necessary once using real
 			// sensors
 			try {
-				setSensors(selection, sensors);
+				bikeSack.setSensors(selection);
 			} catch (SensorException exception) {
 				System.out.println("Error setting sensor value");
 				System.out.println(exception.getMessage());
@@ -252,5 +266,8 @@ public class BikeSack {
 		// Close the scanner
 		input.close();
 	}
+
+
+    
 
 }
