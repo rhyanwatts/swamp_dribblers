@@ -41,17 +41,17 @@ public class HeadLightTest {
 
         //Head Light Low
         System.out.println("\nLow Beam on");;
-        bikeSack.updateHeadLight(HeadLightLevel.LOW);
+        bikeSack.updateHeadLight();
  
         
         //Head Light High
         System.out.println("\nHigh Beam on");;
-        bikeSack.updateHeadLight(HeadLightLevel.HIGH);
+        bikeSack.updateHeadLight();
 
         
       //Head Light Low
         System.out.println("\nLow Beam on");;
-        bikeSack.updateHeadLight(HeadLightLevel.LOW);
+        bikeSack.updateHeadLight();
 
 
     
