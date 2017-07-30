@@ -1,4 +1,6 @@
-package BikeSack;
+package BikeSack.TestingClasses;
+
+import BikeSack.Output;
 
 public class OutputClassTest {
 
