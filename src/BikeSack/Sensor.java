@@ -1,7 +1,7 @@
 package BikeSack;
 
 public class Sensor {
-	public static final int INCREMENT = 25;
+	public static final int INCREMENT = 15;
 
 	private int min;
 	private int max;
