@@ -35,7 +35,7 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, TEMPERATURE
 	}
 
 	// Private member variables
@@ -136,7 +136,7 @@ public class BikeSack {
 		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(0, 125, 80));
+		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(0, 125, 110));
 		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
 	}
 
