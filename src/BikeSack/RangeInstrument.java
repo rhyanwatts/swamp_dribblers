@@ -16,6 +16,11 @@ public class RangeInstrument extends Instrument {
         this.max = max;
     }
     
+    // Rounds down
+    public int getPercentage() {
+        return (int) ( (double)super.getCurrent() / (double)max * 100.0);
+    }
+    
     @Override
     public String toString() {
         char fullChar = '*';
@@ -30,7 +35,6 @@ public class RangeInstrument extends Instrument {
         int numFullChars = (int)gaugeLevel / totalLevelChars;
         
         StringBuilder gaugeBuilder = new StringBuilder();
-        gaugeBuilder.append('[');
         
         // Add the full/empty chars to the string
         for(int i = 0; i < totalLevelChars; ++i)
@@ -41,7 +45,6 @@ public class RangeInstrument extends Instrument {
                 gaugeBuilder.append(emptyChar);
             }
         }
-        gaugeBuilder.append(']');
         return gaugeBuilder.toString();
     }
 

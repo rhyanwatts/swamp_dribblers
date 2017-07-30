@@ -16,8 +16,8 @@ public class BikeSack {
 	public static final String BRAKE_KEY = "B";
 	public static final String TEMPERATURE_INCREASE_KEY = "+";
 	public static final String TEMPERATURE_DECREASE_KEY = "-";
-	public static final String FUEL_INCREASE_KEY = "}";
-	public static final String FUEL_DECREASE_KEY = "{";
+	public static final String FUEL_INCREASE_KEY = "{";
+	public static final String FUEL_DECREASE_KEY = "}";
 	public static final String TRIP_RESET_KEY = "T";
 	public static final String ODOMETER_INCREASE_KEY = "O";
 	public static final String ODOMETER_WARP_KEY = "W";
@@ -35,7 +35,7 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL
 	}
 
 	// Private member variables
@@ -131,7 +131,7 @@ public class BikeSack {
 	// Set up the sensors
 	private void initialiseSensors() {
 		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 255, 25, 0));
+		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 50, 10, 0));
 		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
@@ -154,12 +154,13 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
+		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument());
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors
 	private void setDummySensorValues() throws SensorException {
 		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(125);
+		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(25);
 		sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(0);
