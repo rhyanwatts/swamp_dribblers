@@ -29,7 +29,7 @@ public class ConsoleDisplay extends Display {
 		// Instrument Outputs
 		// Each Row is 60 Chars wide, Column 20 Chars Wide, 10 Chars space between
 		// columns
-		System.out.println("Fuel=0% " + String.format("%12s", "") + "Engine Temp=0c ");
+		System.out.println("Fuel=0% " + String.format("%12s", "") + "Engine Temp= " + instruments.get(INSTRUMENTS.TEMPERATURE).toString());
 		System.out.println("0[----------]100" + String.format("%4s", "") + "min[----------]max");
 		System.out.println();
 		System.out.println("Odometer=0000000" + String.format("%4s", "") + "Trip Meter=0");

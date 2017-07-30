@@ -154,6 +154,7 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
+		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(0,125,22,"Celcius","C"));
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors
