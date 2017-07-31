@@ -35,7 +35,7 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE
 	}
 
 	// Private member variables
@@ -131,12 +131,12 @@ public class BikeSack {
 	// Set up the sensors
 	private void initialiseSensors() {
 		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 50, 10, 0));
+		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 50, 25, 0));
 		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(0, 125, 80));
+		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(60, 135, 110));
 		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
 	}
 
@@ -155,6 +155,7 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument());
+		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60,135,50,"Celsius","C"));
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors

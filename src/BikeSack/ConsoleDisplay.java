@@ -9,7 +9,9 @@ public class ConsoleDisplay extends Display {
 	// Print the console GUI
 	public void show(Map<INSTRUMENTS, Instrument> instruments) {
 
+	   //cast RangeInstruments once here to prevent code bloat later
 	    RangeInstrument fuelLevel = (RangeInstrument)instruments.get(INSTRUMENTS.FUEL);
+	    RangeInstrument temperature = (RangeInstrument)instruments.get(INSTRUMENTS.TEMPERATURE);
 	    
 		// Menu Options output
 		System.out.println("The Bike Sack");
@@ -31,8 +33,8 @@ public class ConsoleDisplay extends Display {
 		// Instrument Outputs
 		// Each Row is 60 Chars wide, Column 20 Chars Wide, 10 Chars space between
 		// columns
-		System.out.println("Fuel=" + fuelLevel.getPercentage() + "% " + String.format("%12s", "") + "Engine Temp=0c ");
-		System.out.println("0[" + fuelLevel + "]100" + String.format("%4s", "") + "min[----------]max");
+		System.out.println("Fuel=" + fuelLevel.getPercentage() + "% " + String.format("%12s", "") + "Engine Temp= "+ temperature.getCurrent() + temperature.getUnitSymbol());
+		System.out.println("0[" + fuelLevel + "]100" + String.format("%4s", "") + "min["+temperature+"]max");
 		System.out.println();
 		System.out.println("Odometer=0000000" + String.format("%4s", "") + "Trip Meter=0");
 		System.out.println();
