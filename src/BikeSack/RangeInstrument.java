@@ -34,6 +34,8 @@ public class RangeInstrument extends Instrument {
 
    private int min;
    private int max;
+   private int warningSetPoint;
+   private boolean maxWarning, warningActive;
    private String unit, unitSymbol;
 
    public RangeInstrument() {
@@ -67,6 +69,15 @@ public class RangeInstrument extends Instrument {
       this.setUnitSymbol(unitSymbol);
    }
 
+   // Chained constructor with warning setpoint
+   public RangeInstrument(int minimum, int maximum, int initial, String unit, String unitSymbol, int warning,
+         boolean maxWarning) {
+      this(minimum, maximum, initial, unit, unitSymbol);
+      this.warningSetPoint = warning;
+      this.maxWarning = maxWarning;
+      this.warningActive = true;
+   }
+
    // Basic Getters and Setters
    public int getMin() {
       return min;
@@ -90,6 +101,28 @@ public class RangeInstrument extends Instrument {
 
    public void setUnitSymbol(String unitSymbol) {
       this.unitSymbol = unitSymbol;
+   }
+
+   public int getWarning() {
+      return warningSetPoint;
+   }
+
+   public void setMaxWarning(boolean maxWarning) {
+      this.maxWarning = maxWarning;
+   }
+
+   public boolean getWarningStatus() {
+      if (!warningActive) {
+         // no warning setpoint. Warning cannot have been triggered
+         return false;
+      }
+      if (super.getCurrent() >= warningSetPoint && maxWarning) {
+         return true; // above maximum warning setpoint
+      } else if (super.getCurrent() <= warningSetPoint && !maxWarning) {
+         return true; // below minimum warning setpoint
+      } else {
+         return false;
+      }
    }
 
    // Rounds down
@@ -119,14 +152,26 @@ public class RangeInstrument extends Instrument {
 
       StringBuilder gaugeBuilder = new StringBuilder();
 
-      // Add the full/empty chars to the string
-      for (int i = 0; i < totalLevelChars; ++i) {
-         if (i < numFullChars) {
-            gaugeBuilder.append(fullChar);
-         } else {
+      if (getWarningStatus()) {
+         // Return Warning Indication with Value
+         gaugeBuilder.append("WARN!-");
+         gaugeBuilder.append(super.getCurrent());
+         for (int i = gaugeBuilder.length(); i < totalLevelChars; i++) {
             gaugeBuilder.append(emptyChar);
          }
+      } else {
+         // Return 'Graphical' Indication
+         // Add the full/empty chars to the string
+         for (int i = 0; i < totalLevelChars; ++i) {
+            if (i < numFullChars) {
+               gaugeBuilder.append(fullChar);
+            } else {
+               gaugeBuilder.append(emptyChar);
+            }
+         }
+
       }
+
       return gaugeBuilder.toString();
    }
 
