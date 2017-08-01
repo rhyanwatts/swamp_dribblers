@@ -13,34 +13,40 @@ public class ConsoleDisplay extends Display {
 	    RangeInstrument fuelLevel = (RangeInstrument)instruments.get(INSTRUMENTS.FUEL);
 	    RangeInstrument temperature = (RangeInstrument)instruments.get(INSTRUMENTS.TEMPERATURE);
 	    
-		// Menu Options output
-		System.out.println("The Bike Sack");
-		System.out.println();
-		System.out.println("B= Brake Lights [" + instruments.get(INSTRUMENTS.BRAKE).toString() + "]");
-		System.out.println("L= Left Indicator [" + instruments.get(INSTRUMENTS.LEFT_INDICATOR).toString() + "]");
-		System.out.println("R= Right Indicator [" + instruments.get(INSTRUMENTS.RIGHT_INDICATOR).toString() + "]");
-		System.out.println("H= Highbeam Toggle [" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString() + "]");
-		System.out.println("{= Fuel Level UP");
-		System.out.println("}= Fuel Level DOWN");
-		System.out.println("+= Engine Temp UP");
-		System.out.println("-= Engine Temp DOWN");
-		System.out.println("T= Trip Reset");
-		System.out.println("O= Simulate Odemeter Increment");
-		System.out.println("W= Simulate Odemeter Increment Warp Speed (100 Wheel Rotations)");
-		System.out.println("X= Exit");
-		System.out.println();
+		// Instrument and Sensor Output
+	    	System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
+		System.out.println("|LEFT INDICATOR |" + pad("THE BIKE SACK", 24) + pad("|RIGHT INDICATOR|", 29) );
+		System.out.println("|**********     |" + pad("+---------------+", 26) + pad("|               |", 27) );
+		System.out.println("|---------------+" + pad("+---------------|", 53));
+		System.out.println("|" + pad("BRAKE LIGHTS", 39) + pad("|", 30));
+		System.out.println("|" + pad("+---------------+", 42) + pad("|", 27));
+		System.out.println("|" + pad("[" + instruments.get(INSTRUMENTS.BRAKE).toString().toUpperCase() + "]",36) + pad("|", 33));
+		System.out.println("|" + pad("|", 69));	
+		System.out.println("|" + pad("TEMP", 9) + pad("HIGH BEAM", 29) + pad("FUEL",22) + pad("|",9));
+		System.out.println("|" + pad("+----+", 10) + pad("+-----------+",30) + pad("+----+",21) + pad("|", 8));
+		System.out.println("|" + pad("[" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString().toUpperCase() + "]",36) + pad("|", 33));
+		System.out.println("|" + pad("[" + temperature + "]",13) + pad("[" + fuelLevel + "]", 52) + pad("|", 4));
+		System.out.println("|" + pad("min",2) + pad("max", 11) + pad("0%", 39) + pad("50%",8) + pad("100%|",8));
+		System.out.println("|" + pad("|", 69));	
+		System.out.println("|" + pad("ODOMETER:      ",16) + pad("TRIP METER:      ", 25) + pad("FUEL USAGE:XXL/XXXKM ", 27) + pad("|",1));
+		
+		//Control Sections
+		System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
+		System.out.println("|" + pad("CONTROLS", 37) + pad("|", 32));
+		System.out.println("|  L= Left Indicator   H= High Beam OFF/LO/HI     R= RightIndicator  |");
+		System.out.println("|" + pad("B= Brakes ON/OFF", 41) + pad("|", 28));	
+		System.out.println("|" + pad("T= Trip Reset", 40) + pad("|", 29));
+		System.out.println("|" + pad("+= Engine Temp UP", 19) + pad("-= Engine Temp DOWN",47) + pad("|", 3));
+		System.out.println("|" + pad("{= Fuel UP", 12) + pad("}= Fuel DOWN",54) + pad("|", 3));
+		System.out.println("|" + pad("O= Simulate Odemeter", 44) + pad("|", 25));
+		System.out.println("|    W= Simulate Odometer Increment Warp Speed (100 Wheel Rotations) |");
+		System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
+		System.out.println("Please enter a selection:");		
+		}
 
-		// Instrument Outputs
-		// Each Row is 60 Chars wide, Column 20 Chars Wide, 10 Chars space between
-		// columns
-		System.out.println("Fuel=" + fuelLevel.getPercentage() + "% " + String.format("%12s", "") + "Engine Temp= "+ temperature.getCurrent() + temperature.getUnitSymbol());
-		System.out.println("0[" + fuelLevel + "]100" + String.format("%4s", "") + "min["+temperature+"]max");
-		System.out.println();
-		System.out.println("Odometer=0000000" + String.format("%4s", "") + "Trip Meter=0");
-		System.out.println();
-		System.out.println("Fuel Usage= 0.0Km/100L");
-		System.out.println();
-		System.out.println("Please enter a selection:");
-
+	
+	private String pad(String text, int chars) {
+	    return String.format("%1$" + chars + "s", text);  
 	}
+
 }
