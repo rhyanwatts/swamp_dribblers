@@ -125,6 +125,16 @@ public class RangeInstrument extends Instrument {
       }
    }
 
+   // TODO comment out overridden method (below) after console output validation
+   // complete
+   @Override
+   public void setCurrent(int current) {
+      super.setCurrent(current);
+      if (getWarningStatus()) {
+         System.out.println("Instrument [WARNING " + super.getCurrent() + " breaches setpoint " + getWarning() + "]");
+      }
+   }
+
    // Rounds down
    public int getPercentage() {
       // adjusted to calculate current - as a percentage of the min-max range
