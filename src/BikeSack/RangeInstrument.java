@@ -71,7 +71,7 @@ public class RangeInstrument extends Instrument {
 
    // Chained constructor with warning setpoint
    public RangeInstrument(int minimum, int maximum, int initial, String unit, String unitSymbol, int warning,
-         boolean maxWarning) {
+		  boolean maxWarning) {
       this(minimum, maximum, initial, unit, unitSymbol);
       this.warningSetPoint = warning;
       this.maxWarning = maxWarning;

@@ -154,14 +154,14 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0,100,50,"Liters","L",10,true));
+		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0,100,50,"Liters","L",20,false));
 		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60,135,50,"Celsius","C",120,true));
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors
 	private void setDummySensorValues() throws SensorException {
 		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(25);
+		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(50);
 		sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).setCurrent(0);
 		sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(0);
