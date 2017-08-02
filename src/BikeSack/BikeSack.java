@@ -131,7 +131,7 @@ public class BikeSack {
 	// Set up the sensors
 	private void initialiseSensors() {
 		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 50, 25, 0));
+		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 100));
 		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
@@ -154,7 +154,7 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument());
+		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0,100,50,"Liters","L",10,true));
 		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60,135,50,"Celsius","C",120,true));
 	}
 
