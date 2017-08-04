@@ -5,6 +5,11 @@ import java.util.Map;
 import BikeSack.BikeSack.INSTRUMENTS;
 
 public class ConsoleDisplay extends Display {
+    
+    // 
+    private final static int NUM_INDICATOR_LOOPS = 29;
+    private final static int INDICATOR_LOOP_DELAY = 90;
+    private int indicatorLoopCounter = 0;
 
 	// Print the console GUI
 	public void show(Map<INSTRUMENTS, Instrument> instruments) {
@@ -12,11 +17,32 @@ public class ConsoleDisplay extends Display {
 	   //cast RangeInstruments once here to prevent code bloat later
 	    RangeInstrument fuelLevel = (RangeInstrument)instruments.get(INSTRUMENTS.FUEL);
 	    RangeInstrument temperature = (RangeInstrument)instruments.get(INSTRUMENTS.TEMPERATURE);
+	    Instrument leftIndicator = instruments.get(INSTRUMENTS.LEFT_INDICATOR);
+	    Instrument rightIndicator = instruments.get(INSTRUMENTS.RIGHT_INDICATOR);
+	    
+	    // If either indicator is on cycle the menu to demonstrate the fading.
+	    if(leftIndicator.isOn() || rightIndicator.isOn()) {
+	        if(indicatorLoopCounter != NUM_INDICATOR_LOOPS) {
+	           ++indicatorLoopCounter;
+	           
+	           show(instruments); 
+	           
+	           // Delay the loop to slow the fade effect.
+	           try {
+	                Thread.sleep(INDICATOR_LOOP_DELAY);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        } else {
+	            indicatorLoopCounter = 0;
+	        }
+	    }
+	    
 	    
 		// Instrument and Sensor Output
 	    	System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
 		System.out.println("|LEFT INDICATOR |" + pad("THE BIKE SACK", 24) + pad("|RIGHT INDICATOR|", 29) );
-		System.out.println("|**********     |" + pad("+---------------+", 26) + pad("|               |", 27) );
+		System.out.println("|" + buildIndicator(leftIndicator) + "|" + pad("+---------------+", 26) + pad("|" + buildIndicator(rightIndicator) + "|", 27) );
 		System.out.println("|---------------+" + pad("+---------------|", 53));
 		System.out.println("|" + pad("BRAKE LIGHTS", 39) + pad("|", 30));
 		System.out.println("|" + pad("+---------------+", 42) + pad("|", 27));
@@ -44,7 +70,6 @@ public class ConsoleDisplay extends Display {
 		System.out.println("Please enter a selection:");		
 		}
 
-
 	
 	private String pad(String text, int chars) {
 	    return String.format("%1$" + chars + "s", text);  
@@ -52,30 +77,36 @@ public class ConsoleDisplay extends Display {
 
 	
 	private String buildIndicator(Instrument indicator) {
-        String indicatorString;
-        int indicatorLen = 10;
+        
+        //int indicatorLen = 15;
         char onChar = '*';
         
+        // Check if indicator is off
         if(indicator.getCurrent() == 0) {
-            indicatorString = "          ";
-            return indicatorString;
+            return "               ";
         }
-        else {
-            // Get the fade level from the current
-            int fadeLevel = indicator.getCurrent();
-            StringBuilder indicatorBuilder = new StringBuilder();
-            for(int i = 0; i < indicatorLen; ++i )
-            {
-                if(i < fadeLevel) {
-                    indicatorBuilder.append(onChar);
-                }
-                else {
-                    indicatorBuilder.append(' ');
-                }
+        
+        // Reset if at the max fade length
+        if(indicator.getCurrent() >= BikeSack.MAX_FADE_CURRENT) {
+            indicator.setCurrent(0);
+        }
+        
+        // Get the fade level from the current
+        int fadeLevel = indicator.getCurrent();
+        
+        // Build the indicator string
+        StringBuilder indicatorBuilder = new StringBuilder();
+        for(int i = 0; i < BikeSack.MAX_FADE_CURRENT; ++i )
+        {
+            if(i < fadeLevel + 1) {
+                indicatorBuilder.append(onChar);
             }
-            indicator.setCurrent(++fadeLevel);    
-            return indicatorBuilder.toString();
+            else {
+                indicatorBuilder.append(' ');
+            }
         }
+        indicator.setCurrent(++fadeLevel);    
+        return indicatorBuilder.toString();
     }
 	
 }

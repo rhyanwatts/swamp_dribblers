@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class BikeSack {
 
 	
-	public static final int MAX_FADE_CURRENT = 10;
+	public static final int MAX_FADE_CURRENT = 15;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
