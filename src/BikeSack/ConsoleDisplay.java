@@ -36,6 +36,10 @@ public class ConsoleDisplay extends Display {
 		System.out.println("Fuel=" + fuelLevel.getPercentage() + "% " + String.format("%12s", "") + "Engine Temp= "+ temperature.getCurrent() + temperature.getUnitSymbol());
 		System.out.println("0[" + fuelLevel + "]100" + String.format("%4s", "") + "min["+temperature+"]max");
 		System.out.println();
+		System.out.println("Left Indicator" + String.format("%7s", "") + "Right Indicator");
+		System.out.println(" [" + buildIndicator(instruments.get(INSTRUMENTS.LEFT_INDICATOR)) + "]   " +
+		        String.format("%4s", "") + "   [" + buildIndicator(instruments.get(INSTRUMENTS.RIGHT_INDICATOR)) + "]   ");
+		System.out.println();
 		System.out.println("Odometer=0000000" + String.format("%4s", "") + "Trip Meter=0");
 		System.out.println();
 		System.out.println("Fuel Usage= 0.0Km/100L");
@@ -43,4 +47,31 @@ public class ConsoleDisplay extends Display {
 		System.out.println("Please enter a selection:");
 
 	}
+	
+	public String buildIndicator(Instrument indicator) {
+        String indicatorString;
+        int indicatorLen = 10;
+        char onChar = '#';
+        
+        if(indicator.getCurrent() == 0) {
+            indicatorString = "          ";
+            return indicatorString;
+        }
+        else {
+            // Get the fade level from the current
+            int fadeLevel = indicator.getCurrent();
+            StringBuilder indicatorBuilder = new StringBuilder();
+            for(int i = 0; i < indicatorLen; ++i )
+            {
+                if(i < fadeLevel) {
+                    indicatorBuilder.append(onChar);
+                }
+                else {
+                    indicatorBuilder.append(' ');
+                }
+            }
+            indicator.setCurrent(++fadeLevel);    
+            return indicatorBuilder.toString();
+        }
+    }
 }
