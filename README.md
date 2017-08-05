@@ -25,6 +25,11 @@ Created By
 ### Feature 2 - Brake Lights ON/OFF
 - Triggered by key press of designated brake key to turn the brake lights on.
 
+### Feature 4 - Engine Temp with High Temp Warning
+- System will increment or decrement stored temperature value when designated Temp+ or Temp- keys are pressed.
+- System to trigger alert (via console output or graphic display) when temperature exceeds a pre-set value.
+- Alert to remain active until the temperature falls below the pre-set value.
+
 ### Feature 6 - Fuel Level Low Warning
 - System will increment or decrement stored fuel level value when designated Fuel+ or Fuel- keys are pressed.
 - System to trigger alert (via console output or graphic display) when fuel falls below a pre-set value
