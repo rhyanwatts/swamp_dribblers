@@ -17,4 +17,11 @@ public abstract class Instrument {
 	}
 
 	public abstract String toString();
+
+    public boolean isOn() {
+        if(current > 0) {
+            return true;
+        }
+        return false;
+    }
 }

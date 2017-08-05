@@ -38,12 +38,6 @@ public class RangeInstrument extends Instrument {
    private boolean maxWarning, warningActive;
    private String unit, unitSymbol;
 
-   public RangeInstrument() {
-      // Default amounts
-      min = 0;
-      max = 50;
-   }
-
    public RangeInstrument(int max) {
       min = 0;
       this.max = max;
@@ -155,7 +149,6 @@ public class RangeInstrument extends Instrument {
       int totalLevelChars = 10;
 
       // Calculate percentage
-      // double gaugeLevel = ( (double)super.getCurrent() / (double)max ) * 100.0;
       int gaugeLevel = this.getPercentage();
 
       int numFullChars = gaugeLevel / totalLevelChars;
