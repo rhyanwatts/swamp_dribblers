@@ -6,10 +6,12 @@ import BikeSack.BikeSack.INSTRUMENTS;
 
 public class ConsoleDisplay extends Display {
     
-    // 
-    private final static int NUM_INDICATOR_LOOPS = 29;
+    private final static int NUM_INDICATOR_LOOPS = 42;
     private final static int INDICATOR_LOOP_DELAY = 90;
     private int indicatorLoopCounter = 0;
+    
+    // Fade direction in/out
+    private boolean indicatorFadeIn = true;
 
 	// Print the console GUI
 	public void show(Map<INSTRUMENTS, Instrument> instruments) {
@@ -77,18 +79,11 @@ public class ConsoleDisplay extends Display {
 
 	
 	private String buildIndicator(Instrument indicator) {
-        
-        //int indicatorLen = 15;
         char onChar = '*';
         
         // Check if indicator is off
         if(indicator.getCurrent() == 0) {
             return "               ";
-        }
-        
-        // Reset if at the max fade length
-        if(indicator.getCurrent() >= BikeSack.MAX_FADE_CURRENT) {
-            indicator.setCurrent(0);
         }
         
         // Get the fade level from the current
@@ -98,14 +93,28 @@ public class ConsoleDisplay extends Display {
         StringBuilder indicatorBuilder = new StringBuilder();
         for(int i = 0; i < BikeSack.MAX_FADE_CURRENT; ++i )
         {
-            if(i < fadeLevel + 1) {
+            if(i < fadeLevel) {
                 indicatorBuilder.append(onChar);
             }
             else {
                 indicatorBuilder.append(' ');
             }
         }
-        indicator.setCurrent(++fadeLevel);    
+        
+        // Toggle fade direction when it reaches the end of the indicator
+        if(fadeLevel == BikeSack.MAX_FADE_CURRENT) {
+            indicatorFadeIn = false; 
+        } else if (fadeLevel == 1) {
+            indicatorFadeIn = true;
+        }
+            
+        // Increment/decrement depending on fade direction
+        if(indicatorFadeIn) {
+            indicator.setCurrent(++fadeLevel);
+        } else {
+            indicator.setCurrent(--fadeLevel);
+        }
+        
         return indicatorBuilder.toString();
     }
 	

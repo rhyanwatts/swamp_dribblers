@@ -8,6 +8,7 @@ public class BikeSack {
 
 	
 	public static final int MAX_FADE_CURRENT = 15;
+	public static final int START_FADE_CURRENT = 1;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
@@ -69,24 +70,24 @@ public class BikeSack {
 			break;
 		case LEFT_INDICATOR_KEY:
 			// Left Indicator
-			sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).toggle();
+			sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).toggle(START_FADE_CURRENT);
 			System.out.println("Sensor [Type= LEFT_INDICATOR, State= "
 					+ sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).getCurrent() + "]");
 			if (sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).getCurrent() != sensors
 					.get(CONNECTED_SENSORS.RIGHT_INDICATOR).getMin()) {
-				sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).toggle();
+				sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).toggle(START_FADE_CURRENT);
 				System.out.println("Sensor [Type= RIGHT_INDICATOR, State= "
 						+ sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).getCurrent() + "]");
 			}
 			break;
 		case RIGHT_INDICATOR_KEY:
 			// Right Indicator
-			sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).toggle();
+			sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).toggle(START_FADE_CURRENT);
 			System.out.println("Sensor [Type= RIGHT_INDICATOR, State= "
 					+ sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).getCurrent() + "]");
 			if (sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).getCurrent() != sensors
 					.get(CONNECTED_SENSORS.LEFT_INDICATOR).getMin()) {
-				sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).toggle();
+				sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).toggle(START_FADE_CURRENT);
 				System.out.println("Sensor [Type= LEFT_INDICATOR, State= "
 						+ sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).getCurrent() + "]");
 			}

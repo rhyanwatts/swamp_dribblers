@@ -80,6 +80,15 @@ public class Sensor {
 		}
 	}
 
+	// Toggle with a custom on value
+	public void toggle(int onValue) throws SensorException {
+        if (getCurrent() > min) {
+            setCurrent(min);
+        } else {
+            setCurrent(onValue);
+        }
+    }
+	
 	public void increase() throws SensorException {
 		setCurrent(getCurrent() + INCREMENT);
 	}
