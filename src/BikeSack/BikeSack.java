@@ -6,9 +6,15 @@ import java.util.Scanner;
 
 public class BikeSack {
 
-	
 	public static final int MAX_FADE_CURRENT = 15;
 	public static final int START_FADE_CURRENT = 1;
+
+	// Constant for the wheel diameter in mm. Used for odometer calculations
+	public static final int WHEEL_CIRCUMFERENCE = 1950;
+	// Multiplier constant to convert wheel circumference unit to instrument unit (mm to Km)
+	public static final int WHEEL_MULTIPLIER = 1000000;
+	// The number of wheel rotations simulated by a warp
+	public static final int WARP_ROTATIONS = 100;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
@@ -36,28 +42,28 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE, TRIP, ODOMETER
 	}
 
 	// Private member variables
 	private Map<CONNECTED_SENSORS, Sensor> sensors = new HashMap<>();
-    private Map<CONNECTED_OUTPUTS, Output> outputs = new HashMap<>();
-    private Map<INSTRUMENTS, Instrument> instruments = new HashMap<>();
-    private Display display = new ConsoleDisplay();
-	
-    // Constructor
-    public BikeSack (){
-        // Set up sensors
-        initialiseSensors();
+	private Map<CONNECTED_OUTPUTS, Output> outputs = new HashMap<>();
+	private Map<INSTRUMENTS, Instrument> instruments = new HashMap<>();
+	private Display display = new ConsoleDisplay();
+	private int odometer = 0;
+	private int tripMeter = 0;
 
-        // Set up the outputs
-        initialiseOutputs();
+	// Constructor
+	public BikeSack() {
+		// Set up sensors
+		initialiseSensors();
 
-        // Set up the instruments
-        initialiseInstruments();
-    }
-     
+		// Set up the outputs
+		initialiseOutputs();
 
+		// Set up the instruments
+		initialiseInstruments();
+	}
 
 	// Adjust the sensors base on the selection
 	public void setSensors(String selection) throws SensorException {
@@ -120,6 +126,21 @@ public class BikeSack {
 			System.out.println("Sensor [Type= TEMPERATURE, State= "
 					+ sensors.get(CONNECTED_SENSORS.TEMPERATURE).getCurrent() + "]");
 			break;
+		case ODOMETER_INCREASE_KEY:
+			sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(1);
+			;
+			System.out.println(
+					"Sensor [Type= ODOMETER, State= " + sensors.get(CONNECTED_SENSORS.ODOMETER).getCurrent() + "]");
+			break;
+		case ODOMETER_WARP_KEY:
+			sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(WARP_ROTATIONS);
+			System.out.println(
+					"Sensor [Type= ODOMETER, State= " + sensors.get(CONNECTED_SENSORS.ODOMETER).getCurrent() + "]");
+			break;
+		case TRIP_RESET_KEY:
+			sensors.get(CONNECTED_SENSORS.TRIP).toggle();
+			System.out.println("Sensor [Type= TRIP, State= " + sensors.get(CONNECTED_SENSORS.TRIP).getCurrent() + "]");
+			break;
 		case EXIT_KEY:
 			// Exit application
 			break;
@@ -135,7 +156,7 @@ public class BikeSack {
 		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 100));
 		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
 		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, MAX_FADE_CURRENT));
-		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, 1));
+		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, WARP_ROTATIONS));
 		sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(0, MAX_FADE_CURRENT));
 		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(60, 135, 110));
 		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
@@ -155,8 +176,10 @@ public class BikeSack {
 		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
 		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0,100,50,"Liters","L",20,false));
-		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60,135,50,"Celsius","C",120,true));
+		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0, 100, 50, "Liters", "L", 20, false));
+		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60, 135, 50, "Celsius", "C", 120, true));
+		instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
+		instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
 	}
 
 	// Set the sensors to have plausable defaults since we don't have real sensors
@@ -194,10 +217,43 @@ public class BikeSack {
 	}
 
 	// Set the instruments based on the inputs
-	private void updateInstruments() {
+	private void updateInstruments() throws SensorException {
 		for (CONNECTED_SENSORS sensorName : sensors.keySet()) {
 			for (INSTRUMENTS instrumentName : instruments.keySet()) {
-				if (sensorName.name().equals(instrumentName.name())) {
+
+				// Separate logic to update stored odometer variable and decrease sensor as we are only simulating it 
+				if (sensorName.name().equals(CONNECTED_SENSORS.ODOMETER.name())
+						&& sensorName.name().equals(instrumentName.name())) {
+					Sensor sensor = sensors.get(sensorName);
+					int sensorValue = sensor.getCurrent();
+
+					while (sensorValue != sensor.getMin()) {
+						odometer += WHEEL_CIRCUMFERENCE;
+
+						Instrument instrument = instruments.get(instrumentName);
+						instrument.setCurrent(odometer);
+
+						instruments.get(INSTRUMENTS.TRIP).setCurrent(odometer - tripMeter);
+
+						sensor.setCurrent(--sensorValue);
+						System.out.println("Sensor [Type= ODOMETER, State= " + sensor.getCurrent() + "]");
+					}
+					
+				// Trip meter also needs different logic as sensor does not translate directly to instrument
+				} else if (sensorName.name().equals(CONNECTED_SENSORS.TRIP.name())
+						&& sensorName.name().equals(instrumentName.name())) {
+					Sensor sensor = sensors.get(sensorName);
+					int sensorValue = sensor.getCurrent();
+
+					if (sensorValue != sensor.getMin()) {
+						tripMeter = odometer;
+
+						Instrument instrument = instruments.get(instrumentName);
+						instrument.setCurrent(odometer - tripMeter);
+					}
+					
+				// Everything else, set the instrument value to the sensor value
+				} else if (sensorName.name().equals(instrumentName.name())) {
 					Sensor sensor = sensors.get(sensorName);
 					int sensorValue = sensor.getCurrent();
 
@@ -213,26 +269,25 @@ public class BikeSack {
 	}
 
 	private void showDisplay() {
-        display.show(instruments); 
-    }
-	
+		display.show(instruments);
+	}
+
 	// Get the user's menu selection
-    public static String getUserInput(Scanner input) {
-        String selection = input.nextLine();
-        if (selection.length() < 1) {
-            selection = " ";
-        }
-        selection = selection.substring(0, 1);
-        return selection.toUpperCase();
-    }
-	
+	public static String getUserInput(Scanner input) {
+		String selection = input.nextLine();
+		if (selection.length() < 1) {
+			selection = " ";
+		}
+		selection = selection.substring(0, 1);
+		return selection.toUpperCase();
+	}
+
 	public static void main(String[] args) {
-		
+
 		Scanner input = new Scanner(System.in);
 		String selection;
-		
+
 		BikeSack bikeSack = new BikeSack();
-		
 
 		// Set some reasonable values for testing
 		try {
@@ -247,9 +302,14 @@ public class BikeSack {
 			bikeSack.updateOutputs();
 
 			// Set the instruments based on the sensor values
-			bikeSack.updateInstruments();
+			try {
+				bikeSack.updateInstruments();
+			} catch (SensorException exception) {
+				System.out.println("Error setting sensor value");
+				System.out.println(exception.getMessage());
+			}
 
-			// Show the interface 
+			// Show the interface
 			bikeSack.showDisplay();
 
 			// Get user input
@@ -269,8 +329,5 @@ public class BikeSack {
 		// Close the scanner
 		input.close();
 	}
-
-
-    
 
 }
