@@ -52,8 +52,37 @@ public class BikeSack {
 	private Display display = new ConsoleDisplay();
 	private int odometer = 0;
 	private int tripMeter = 0;
+  
+   // Private variables specific to this motorcycle. Avoids MagicNumbers.
+   // TODO write these to file and load on startup if dev time remaining
 
-	// Constructor
+   // Sensor Minimum Values
+   private int brakeSenseMin = 0, fuelSenseMin = 0, highBeamSenseMin = 0;
+   private int indicatorSenseMin = 0, odometerSenseMin = 0, tempSenseMin = 0;
+   private int tripSenseMin = 0;
+
+   // Sensor Maximum Values
+   private int brakeSenseMax = 1, highBeamSenseMax = 1, odometerSenseMax = 100, tripSenseMax = 1;
+   private int fuelSenseMax = 25;
+   private int tempSenseMax = 135;
+
+   // Sensor Warning Values
+   private int tempSenseWarn = 120;
+
+   // Sensor Initial Values - If not reusing existing min or max values
+   private int tempSenseInit = 25; //ambient air temp. Cold start.
+
+   // Instrument Values
+   private String fuelInstUnit = "Liters";
+   private String fuelInstUnitSymbol = "L";
+   private int fuelInstWarn = 5;
+   private boolean fuelInstWarnMax = false;
+   private int tempInstMin = 60;
+   private String tempInstUnit = "Celsius";
+   private String tempInstUnitSmybol = "C";
+   private boolean tempInstWarnMax = true;
+	
+  // Constructor
 	public BikeSack() {
 		// Set up sensors
 		initialiseSensors();
@@ -150,49 +179,51 @@ public class BikeSack {
 		}
 	}
 
-	// Set up the sensors
-	private void initialiseSensors() {
-		sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(0, 100));
-		sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(0, 1));
-		sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(0, MAX_FADE_CURRENT));
-		sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(0, WARP_ROTATIONS));
-		sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(0, MAX_FADE_CURRENT));
-		sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(60, 135, 110));
-		sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(0, 1));
-	}
+   // Set up the sensors
+   private void initialiseSensors() {
+      sensors.put(CONNECTED_SENSORS.BRAKE, new Sensor(brakeSenseMin, brakeSenseMax));
+      sensors.put(CONNECTED_SENSORS.FUEL, new Sensor(fuelSenseMin, fuelSenseMax));
+      sensors.put(CONNECTED_SENSORS.HIGH_BEAM, new Sensor(highBeamSenseMin, highBeamSenseMax));
+      sensors.put(CONNECTED_SENSORS.LEFT_INDICATOR, new Sensor(indicatorSenseMin, MAX_FADE_CURRENT));
+      sensors.put(CONNECTED_SENSORS.ODOMETER, new Sensor(odometerSenseMin, odometerSenseMax));
+      sensors.put(CONNECTED_SENSORS.RIGHT_INDICATOR, new Sensor(indicatorSenseMin, MAX_FADE_CURRENT));
+      sensors.put(CONNECTED_SENSORS.TEMPERATURE, new Sensor(tempSenseMin, tempSenseMax, tempSenseWarn));
+      sensors.put(CONNECTED_SENSORS.TRIP, new Sensor(tripSenseMin, tripSenseMax));
+   }
 
-	// Set up the outputs
-	private void initialiseOutputs() {
-		outputs.put(CONNECTED_OUTPUTS.LEFT_INDICATOR, new Output("Left Indicator", Output.OFF));
-		outputs.put(CONNECTED_OUTPUTS.RIGHT_INDICATOR, new Output("Right Indicator", Output.OFF));
-		outputs.put(CONNECTED_OUTPUTS.HIGH_BEAM, new Output("Head Lights High", Output.OFF));
-		outputs.put(CONNECTED_OUTPUTS.BRAKE, new Output("Brake Light", Output.OFF));
-	}
+   // Set up the outputs
+   private void initialiseOutputs() {
+      outputs.put(CONNECTED_OUTPUTS.LEFT_INDICATOR, new Output("Left Indicator", Output.OFF));
+      outputs.put(CONNECTED_OUTPUTS.RIGHT_INDICATOR, new Output("Right Indicator", Output.OFF));
+      outputs.put(CONNECTED_OUTPUTS.HIGH_BEAM, new Output("Head Lights High", Output.OFF));
+      outputs.put(CONNECTED_OUTPUTS.BRAKE, new Output("Brake Light", Output.OFF));
+   }
 
-	// Set up the instruments
-	private void initialiseInstruments() {
-		instruments.put(INSTRUMENTS.LEFT_INDICATOR, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
-		instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(0, 100, 50, "Liters", "L", 20, false));
-		instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(60, 135, 50, "Celsius", "C", 120, true));
+   // Set up the instruments
+   private void initialiseInstruments() {
+      instruments.put(INSTRUMENTS.LEFT_INDICATOR, new BooleanInstrument());
+      instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
+      instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
+      instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
+      instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(fuelSenseMin, fuelSenseMax, fuelSenseMax, fuelInstUnit,
+            fuelInstUnitSymbol, fuelInstWarn, fuelInstWarnMax));
+      instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(tempInstMin, tempSenseMax, tempSenseInit,
+            tempInstUnit, tempInstUnitSmybol, tempSenseWarn, tempInstWarnMax));
 		instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
 		instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
 	}
 
-	// Set the sensors to have plausable defaults since we don't have real sensors
-	private void setDummySensorValues() throws SensorException {
-		sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(50);
-		sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).setCurrent(0);
-		sensors.get(CONNECTED_SENSORS.TEMPERATURE).setCurrent(60);
-		sensors.get(CONNECTED_SENSORS.TRIP).setCurrent(0);
-	}
+// Set the sensors to have plausable defaults since we don't have real sensors
+   private void setDummySensorValues() throws SensorException {
+      sensors.get(CONNECTED_SENSORS.BRAKE).setCurrent(brakeSenseMin); //off
+      sensors.get(CONNECTED_SENSORS.FUEL).setCurrent(fuelSenseMax); //full tank
+      sensors.get(CONNECTED_SENSORS.HIGH_BEAM).setCurrent(highBeamSenseMin); //off
+      sensors.get(CONNECTED_SENSORS.LEFT_INDICATOR).setCurrent(indicatorSenseMin); //off
+      sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(odometerSenseMin); // Zero
+      sensors.get(CONNECTED_SENSORS.RIGHT_INDICATOR).setCurrent(indicatorSenseMin); //off
+      sensors.get(CONNECTED_SENSORS.TEMPERATURE).setCurrent(tempSenseInit); //Ambient Temp
+      sensors.get(CONNECTED_SENSORS.TRIP).setCurrent(tripSenseMin); // Zero
+   }
 
 	// Set the outputs based on the inputs
 	private void updateOutputs() {
