@@ -56,17 +56,17 @@ public class ConsoleDisplay extends Display {
 		System.out.println("|" + pad("[" + temperature + "]",13) + pad("[" + fuelLevel + "]", 52) + pad("|", 4));
 		System.out.println("|" + pad("min",2) + pad("max", 11) + pad("0%", 39) + pad("50%",8) + pad("100%|",8));
 		System.out.println("|" + pad("|", 69));	
-		System.out.println("|" + pad("ODOMETER:      ",16) + pad("TRIP METER:      ", 25) + pad("FUEL USAGE:XXL/XXXKM ", 27) + pad("|",1));
+		System.out.println("|" + pad("ODOMETER: " + instruments.get(INSTRUMENTS.ODOMETER), 16) + pad("TRIP METER: " + instruments.get(INSTRUMENTS.TRIP), 25) + pad("FUEL USAGE:XXL/XXXKM ", 27) + pad("|",1));
 		
 		//Control Sections
 		System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
 		System.out.println("|" + pad("CONTROLS", 37) + pad("|", 32));
 		System.out.println("|  L= Left Indicator     H= High Beam LO/HI       R= RightIndicator  |");
 		System.out.println("|" + pad("B= Brakes ON/OFF", 41) + pad("|", 28));	
-		System.out.println("|" + pad("T= Trip Reset", 40) + pad("|", 29));
+		System.out.println("|" + pad("T= Trip Reset (Will stay at zero until released)", 60) + pad("|", 9));
 		System.out.println("|" + pad("+= Engine Temp UP", 19) + pad("-= Engine Temp DOWN",47) + pad("|", 3));
 		System.out.println("|" + pad("{= Fuel UP", 12) + pad("}= Fuel DOWN",54) + pad("|", 3));
-		System.out.println("|" + pad("O= Simulate Odemeter", 44) + pad("|", 25));
+		System.out.println("|" + pad("O= Simulate Odometer", 44) + pad("|", 25));
 		System.out.println("|    W= Simulate Odometer Increment Warp Speed (100 Wheel Rotations) |");
 		System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
 		System.out.println("Please enter a selection:");		
