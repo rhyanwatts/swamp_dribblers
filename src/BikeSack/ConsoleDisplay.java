@@ -52,7 +52,9 @@ public class ConsoleDisplay extends Display {
 		System.out.println("|" + pad("|", 69));	
 		System.out.println("|" + pad("TEMP", 9) + pad("HIGH BEAM", 29) + pad("FUEL",22) + pad("|",9));
 		System.out.println("|" + pad("+----+", 10) + pad("+-----------+",30) + pad("+----+",21) + pad("|", 8));
-		System.out.println("|" + pad("[" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString().toUpperCase() + "]",36) + pad("|", 33));
+		System.out.println("|" + pad(instruments.get(INSTRUMENTS.TEMPERATURE).getCurrent() + 
+		      ((RangeInstrument) instruments.get(INSTRUMENTS.TEMPERATURE)).getUnitSymbol(),9) + 
+		      pad("[" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString().toUpperCase() + "]",27) + pad("|", 33));
 		System.out.println("|" + pad("[" + temperature + "]",13) + pad("[" + fuelLevel + "]", 52) + pad("|", 4));
 		System.out.println("|" + pad("min",2) + pad("max", 11) + pad("0%", 39) + pad("50%",8) + pad("100%|",8));
 		System.out.println("|" + pad("|", 69));	
