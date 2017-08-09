@@ -79,7 +79,7 @@ public class BikeSack {
    private boolean fuelInstWarnMax = false;
    private int tempInstMin = 60;
    private String tempInstUnit = "Celsius";
-   private String tempInstUnitSmybol = "C";
+   private String tempInstUnitSmybol = ((char)176 + "C"); //ASCII Deg. Symbol
    private boolean tempInstWarnMax = true;
 	
   // Constructor
