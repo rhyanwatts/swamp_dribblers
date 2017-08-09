@@ -213,8 +213,8 @@ public class BikeSack {
             tempInstUnit, tempInstUnitSmybol, tempSenseWarn, tempInstWarnMax));
       instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
       instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
-      instruments.put(INSTRUMENTS.FUEL_USAGE, new UsageInstrument(fuelUsageMin, "L/100Km", odometerSenseMin, 
-			fuelSenseMax, USAGE_MULTIPLIER));
+      instruments.put(INSTRUMENTS.FUEL_USAGE, new UsageInstrument(fuelUsageMin, "L/100Km", fuelSenseMax, 
+    		  odometerSenseMin, USAGE_MULTIPLIER));
 	}
 
 // Set the sensors to have plausable defaults since we don't have real sensors
@@ -269,7 +269,8 @@ public class BikeSack {
 						instrument.setCurrent(odometer);
 
 						instruments.get(INSTRUMENTS.TRIP).setCurrent(odometer - tripMeter);
-						instruments.get(INSTRUMENTS.FUEL_USAGE).setCurrent(odometer - tripMeter);
+						instruments.get(INSTRUMENTS.FUEL_USAGE).setUsageCurrent(instruments.get(INSTRUMENTS.TRIP).getCurrent(), 
+								instruments.get(INSTRUMENTS.FUEL).getCurrent());
 
 						sensor.setCurrent(--sensorValue);
 						System.out.println("Sensor [Type= ODOMETER, State= " + sensor.getCurrent() + "]");

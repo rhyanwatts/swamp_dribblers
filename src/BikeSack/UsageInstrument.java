@@ -12,11 +12,10 @@ public class UsageInstrument extends TextualInstrument {
 		this.startNumerator = numerator;
 		this.startDenominator = denominator;
 		this.multiplier = multiplier;
-		
 	}
-	
-	public void setCurrent(int numerator, int denominator) {
-		current = (numerator - startNumerator) / ((denominator - startDenominator) * multiplier);
+	@Override
+	public void setUsageCurrent(int numerator, int denominator) {
+		current = (((numerator - startNumerator) / (denominator - startDenominator)) * multiplier);
 		super.setCurrent(current);
 	}
 	

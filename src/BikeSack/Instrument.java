@@ -22,4 +22,8 @@ public class Instrument {
         }
         return false;
     }
+
+	public void setUsageCurrent(int numerator, int denominator) {
+		
+	}
 }
