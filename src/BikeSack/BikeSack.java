@@ -15,6 +15,8 @@ public class BikeSack {
 	public static final int WHEEL_MULTIPLIER = 1000000;
 	// The number of wheel rotations simulated by a warp
 	public static final int WARP_ROTATIONS = 100;
+	// Constant multiplier for fuel usage
+	public static final int USAGE_MULTIPLIER = 100;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
@@ -42,7 +44,7 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE, TRIP, ODOMETER
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE, TRIP, ODOMETER, FUEL_USAGE
 	}
 
 	// Private member variables
@@ -59,7 +61,7 @@ public class BikeSack {
    // Sensor Minimum Values
    private int brakeSenseMin = 0, fuelSenseMin = 0, highBeamSenseMin = 0;
    private int indicatorSenseMin = 0, odometerSenseMin = 0, tempSenseMin = 0;
-   private int tripSenseMin = 0;
+   private int tripSenseMin = 0, fuelUsageMin = 0;
 
    // Sensor Maximum Values
    private int brakeSenseMax = 1, highBeamSenseMax = 1, odometerSenseMax = 100, tripSenseMax = 1;
@@ -209,8 +211,10 @@ public class BikeSack {
             fuelInstUnitSymbol, fuelInstWarn, fuelInstWarnMax));
       instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(tempInstMin, tempSenseMax, tempSenseInit,
             tempInstUnit, tempInstUnitSmybol, tempSenseWarn, tempInstWarnMax));
-		instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
-		instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.FUEL_USAGE, new UsageInstrument(fuelUsageMin, "L/100Km", odometerSenseMin, 
+			fuelSenseMax, USAGE_MULTIPLIER));
 	}
 
 // Set the sensors to have plausable defaults since we don't have real sensors
@@ -265,6 +269,7 @@ public class BikeSack {
 						instrument.setCurrent(odometer);
 
 						instruments.get(INSTRUMENTS.TRIP).setCurrent(odometer - tripMeter);
+						instruments.get(INSTRUMENTS.FUEL_USAGE).setCurrent(odometer - tripMeter);
 
 						sensor.setCurrent(--sensorValue);
 						System.out.println("Sensor [Type= ODOMETER, State= " + sensor.getCurrent() + "]");

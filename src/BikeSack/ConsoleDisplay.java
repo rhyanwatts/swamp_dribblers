@@ -58,7 +58,8 @@ public class ConsoleDisplay extends Display {
 		System.out.println("|" + pad("[" + temperature + "]",13) + pad("[" + fuelLevel + "]", 52) + pad("|", 4));
 		System.out.println("|" + pad("min",2) + pad("max", 11) + pad("0%", 39) + pad("50%",8) + pad("100%|",8));
 		System.out.println("|" + pad("|", 69));	
-		System.out.println("|" + pad("ODOMETER: " + instruments.get(INSTRUMENTS.ODOMETER), 16) + pad("TRIP METER: " + instruments.get(INSTRUMENTS.TRIP), 25) + pad("FUEL USAGE:XXL/XXXKM ", 27) + pad("|",1));
+		System.out.println("|" + pad("ODOMETER: " + instruments.get(INSTRUMENTS.ODOMETER), 16) + 
+				pad("TRIP METER: " + instruments.get(INSTRUMENTS.TRIP), 25) + pad("FUEL USAGE:" + instruments.get(INSTRUMENTS.FUEL_USAGE), 27) + pad("|",1));
 		
 		//Control Sections
 		System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
