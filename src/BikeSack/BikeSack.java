@@ -201,9 +201,9 @@ public class BikeSack {
 
    // Set up the instruments
    private void initialiseInstruments() {
-      instruments.put(INSTRUMENTS.LEFT_INDICATOR, new BooleanInstrument());
-      instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new BooleanInstrument());
-      instruments.put(INSTRUMENTS.HIGH_BEAM, new BooleanInstrument());
+      instruments.put(INSTRUMENTS.LEFT_INDICATOR, new Instrument());
+      instruments.put(INSTRUMENTS.RIGHT_INDICATOR, new Instrument());
+      instruments.put(INSTRUMENTS.HIGH_BEAM, new HeadlightInstrument());
       instruments.put(INSTRUMENTS.BRAKE, new BooleanInstrument());
       instruments.put(INSTRUMENTS.FUEL, new RangeInstrument(fuelSenseMin, fuelSenseMax, fuelSenseMax, fuelInstUnit,
             fuelInstUnitSymbol, fuelInstWarn, fuelInstWarnMax));

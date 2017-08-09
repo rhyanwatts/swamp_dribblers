@@ -1,6 +1,6 @@
 package BikeSack;
 
-public abstract class Instrument {
+public class Instrument {
 
 	private int current;
 
@@ -15,8 +15,6 @@ public abstract class Instrument {
 	public int getCurrent() {
 		return current;
 	}
-
-	public abstract String toString();
 
     public boolean isOn() {
         if(current > 0) {
