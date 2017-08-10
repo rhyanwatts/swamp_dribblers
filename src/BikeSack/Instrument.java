@@ -23,7 +23,11 @@ public class Instrument {
         return false;
     }
 
-	public void setUsageCurrent(int numerator, int denominator) {
+	public void setUsageCurrent(double numerator, double denominator) {
+		
+	}
+
+	public void resetUsage(int current, double numerator, double denominator) {
 		
 	}
 }

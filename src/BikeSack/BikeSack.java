@@ -17,6 +17,8 @@ public class BikeSack {
 	public static final int WARP_ROTATIONS = 100;
 	// Constant multiplier for fuel usage
 	public static final int USAGE_MULTIPLIER = 100;
+	// Constant multiplier for fuel usage
+	public static final int LITRE_MULTIPLIER = 100;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
@@ -170,6 +172,8 @@ public class BikeSack {
 			break;
 		case TRIP_RESET_KEY:
 			sensors.get(CONNECTED_SENSORS.TRIP).toggle();
+			instruments.get(INSTRUMENTS.FUEL_USAGE).resetUsage(fuelUsageMin, (double) instruments.get(INSTRUMENTS.FUEL).getCurrent(), 
+					(double) instruments.get(INSTRUMENTS.TRIP).getCurrent());
 			System.out.println("Sensor [Type= TRIP, State= " + sensors.get(CONNECTED_SENSORS.TRIP).getCurrent() + "]");
 			break;
 		case EXIT_KEY:
@@ -214,7 +218,7 @@ public class BikeSack {
       instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
       instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
       instruments.put(INSTRUMENTS.FUEL_USAGE, new UsageInstrument(fuelUsageMin, "L/100Km", fuelSenseMax, 
-    		  odometerSenseMin, USAGE_MULTIPLIER));
+    		  odometerSenseMin, LITRE_MULTIPLIER, WHEEL_MULTIPLIER, USAGE_MULTIPLIER));
 	}
 
 // Set the sensors to have plausable defaults since we don't have real sensors
@@ -269,12 +273,13 @@ public class BikeSack {
 						instrument.setCurrent(odometer);
 
 						instruments.get(INSTRUMENTS.TRIP).setCurrent(odometer - tripMeter);
-						instruments.get(INSTRUMENTS.FUEL_USAGE).setUsageCurrent(instruments.get(INSTRUMENTS.TRIP).getCurrent(), 
-								instruments.get(INSTRUMENTS.FUEL).getCurrent());
+						
 
 						sensor.setCurrent(--sensorValue);
 						System.out.println("Sensor [Type= ODOMETER, State= " + sensor.getCurrent() + "]");
 					}
+					instruments.get(INSTRUMENTS.FUEL_USAGE).setUsageCurrent((double) instruments.get(INSTRUMENTS.FUEL).getCurrent(), 
+							(double) instruments.get(INSTRUMENTS.TRIP).getCurrent());
 					
 				// Trip meter also needs different logic as sensor does not translate directly to instrument
 				} else if (sensorName.name().equals(CONNECTED_SENSORS.TRIP.name())
@@ -287,7 +292,10 @@ public class BikeSack {
 
 						Instrument instrument = instruments.get(instrumentName);
 						instrument.setCurrent(odometer - tripMeter);
+						
 					}
+					instruments.get(INSTRUMENTS.FUEL_USAGE).setUsageCurrent((double) instruments.get(INSTRUMENTS.FUEL).getCurrent(), 
+							(double) instruments.get(INSTRUMENTS.TRIP).getCurrent());
 					
 				// Everything else, set the instrument value to the sensor value
 				} else if (sensorName.name().equals(instrumentName.name())) {
