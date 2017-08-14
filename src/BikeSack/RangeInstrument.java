@@ -1,110 +1,213 @@
 package BikeSack;
 
 /**
- * <h1>Bike Sack RangeInstrument Class</h1> The Range Instrument Class extends
- * BikeSack's abstract 'Instrument'
+ * <h1>Bike Sack RangeInstrument</h1> This Class extends BikeSack's abstract
+ * 'Instrument' and allows for an instrument with a proportional value. It can
+ * also display a selective range to only show relevant information.
  * 
- * This class allows for an instrument with a proportional value. It can also
- * display a selective range to only show relevant information.
+ * <h2>Example usage:</h2> Temperature Instrument with minimum value 0, maximum
+ * 125, current value 22 and units are Celsius:
+ * <p>
+ * {@code Instrument tempgauge = new
+ * RangeInstrument(0,125,22,"Celsius","C");}
+ * </p>
  * 
- * <h2>Example usage:
- * <h2>Temperature Instrument with minimum value 0, maximum 125, current value
- * 22 and units are Celsius: Instrument tempgauge = new
- * RangeInstrument(0,125,22,"Celsius","C");
+ * <p>
+ * Volt Meter Example:
+ * </p>
+ * {@code Instrument voltmeter = new RangeInstrument(10,14,12,"Volts",
+ * "V");}
  * 
- * Volt Meter: Instrument voltmeter = new RangeInstrument(10,14,12,"Volts",
- * "V");
- * 
- * <h2>Useful Methods include:
- * <h2>getPercentage() Returns the current value - as a percentage of the range
- * 
+ * <h2>Useful Methods include:</h2>
+ * <p>
+ * getPercentage() Returns the current value - as a percentage of the range
+ * </p>
+ * <p>
  * getPercentageString() Returns the current value - as a percentage of the
  * range, with a % symbol and in string format
- * 
- * toString() Returns a 10char sting filled proportinally with the percentage
+ * </p>
+ * <p>
+ * toString() Returns a 10char sting filled proportionally with the percentage
  * state of the instrument. e.g. 75% of range is returned as "*******---"
+ * </p>
  * 
  * @author Matthew Flack s3493444
  * @author Aidan Holmes s3355003
  * @since 30/7/2017
- * @version 0.2
+ * @version 1.0
  */
 
 public class RangeInstrument extends Instrument {
 
+   // declare private variables
    private int min;
    private int max;
    private int warningSetPoint;
    private boolean maxWarning, warningActive;
    private String unit, unitSymbol;
 
+   /**
+    * Constructs an instrument that displays current value, within a defined range.
+    * 
+    * @param max
+    *           The maximum display range of this instrument
+    */
    public RangeInstrument(int max) {
       min = 0;
       this.max = max;
    }
 
-   // Chained constructor with setting for minimum
+   /**
+    * Constructs an instrument that displays current value, within a defined range.
+    * 
+    * @param minimum
+    *           the minimum display range of this instrument
+    * @param maximum
+    *           the maximum display range of this instrument
+    */
    public RangeInstrument(int minimum, int maximum) {
       this(maximum);
       this.min = minimum;
       this.setCurrent(min); // set current to bottom of range
    }
 
-   // Chained constructor with setting for initial value
+   /**
+    * Constructs an instrument that displays current value, within a defined range.
+    * 
+    * @param minimum
+    *           the minimum display range of this instrument
+    * @param maximum
+    *           the maximum display range of this instrument
+    * @param initial
+    *           the starting display value for this instrument
+    */
    public RangeInstrument(int minimum, int maximum, int initial) {
       this(minimum, maximum);
       this.setCurrent(initial);
    }
 
-   // Chained constructor with setting for Units
+   /**
+    * Constructs an instrument that displays current value, within a defined range.
+    * 
+    * @param minimum
+    *           the minimum display range of this instrument
+    * @param maximum
+    *           the maximum display range of this instrument
+    * @param initial
+    *           the starting display value for this instrument
+    * @param unit
+    *           the name of the units this instrument is displaying
+    * @param unitSymbol
+    *           the symbol or abbreviation for the units this instrument is
+    *           displaying
+    */
    public RangeInstrument(int minimum, int maximum, int initial, String unit, String unitSymbol) {
       this(minimum, maximum, initial);
       this.setUnit(unit);
       this.setUnitSymbol(unitSymbol);
    }
 
-   // Chained constructor with warning setpoint
+   /**
+    * Constructs an instrument that displays current value, within a defined range.
+    * 
+    * @param minimum
+    *           the minimum display range of this instrument
+    * @param maximum
+    *           the maximum display range of this instrument
+    * @param initial
+    *           the starting display value for this instrument
+    * @param unit
+    *           the name of the units this instrument is displaying
+    * @param unitSymbol
+    *           the symbol or abbreviation for the units this instrument is
+    *           displaying
+    * @param warning
+    *           the value at which the instrument will display a warning
+    * @param maxWarning
+    *           True if warning is maximum, False to use warning as a minimum
+    */
    public RangeInstrument(int minimum, int maximum, int initial, String unit, String unitSymbol, int warning,
-		  boolean maxWarning) {
+         boolean maxWarning) {
       this(minimum, maximum, initial, unit, unitSymbol);
       this.warningSetPoint = warning;
       this.maxWarning = maxWarning;
       this.warningActive = true;
    }
 
-   // Basic Getters and Setters
+   /**
+    * 
+    * @return minimum value of display range for this instrument
+    */
    public int getMin() {
       return min;
    }
 
+   /**
+    * 
+    * @return maximum value of display range for this instrument
+    */
    public int getMax() {
       return max;
    }
 
+   /**
+    * 
+    * @return name of unit being displayed by this instrument
+    */
    public String getUnit() {
       return unit;
    }
 
+   /**
+    * 
+    * @param unit
+    *           name of unit being displayed by this instrument
+    */
    public void setUnit(String unit) {
       this.unit = unit;
    }
 
+   /**
+    * 
+    * @return Symbol the symbol or abbreviation for the units this instrument is
+    *         displaying
+    */
    public String getUnitSymbol() {
       return unitSymbol;
    }
 
+   /**
+    * 
+    * @param unitSymbol
+    *           the symbol or abbreviation for the units this instrument is
+    *           displaying
+    */
    public void setUnitSymbol(String unitSymbol) {
       this.unitSymbol = unitSymbol;
    }
 
+   /**
+    * 
+    * @return value of current warning trigger or set point
+    */
    public int getWarning() {
       return warningSetPoint;
    }
 
+   /**
+    * 
+    * @param maxWarning
+    *           True if maximum warning trigger. False if Minimim warning trigger.
+    */
    public void setMaxWarning(boolean maxWarning) {
       this.maxWarning = maxWarning;
    }
 
+   /**
+    * 
+    * @return True if warning is currently triggered. False if not in warning
+    *         state.
+    */
    public boolean getWarningStatus() {
       if (!warningActive) {
          // no warning setpoint. Warning cannot have been triggered
@@ -129,17 +232,32 @@ public class RangeInstrument extends Instrument {
       }
    }
 
-   // Rounds down
+   /**
+    * 
+    * @return Current value, as a percentage of the instrument's display range.
+    */
    public int getPercentage() {
-      // adjusted to calculate current - as a percentage of the min-max range
+      // adjusted to calculate current - as a percentage of the min-max range. Rounds
+      // down.
       return (int) (((double) super.getCurrent() - min) / (double) (max - min) * 100.0);
    }
 
-   // return current value as a percentage, as a String
+   /**
+    * 
+    * @return Current value as a percentage of the instrument's display range.
+    *         String format with % symbol.
+    */
    public String getPercentageString() {
       return (getPercentage() + "%");
    }
 
+   /**
+    * @return Instrument value as a proportion of the instrument's range, in basic bar graph format.
+    * <p>e.g. Range is 100 - 200 and value is 150</p>
+    * {@code RangeInstrument.toString()} returns: "*****-----"
+    * 
+    * 
+    */
    @Override
    public String toString() {
       char fullChar = '*';

@@ -52,7 +52,7 @@ public class Output {
    private int incrementStep;
 
    /**
-    * This contstructs an Output with default values. Output level = Off, Increment
+    * This constructs an Output with default values. Output level = Off, Increment
     * size = 25
     */
    public Output() {
