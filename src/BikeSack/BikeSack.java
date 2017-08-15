@@ -15,6 +15,8 @@ public class BikeSack {
 	public static final int WHEEL_MULTIPLIER = 1000000;
 	// The number of wheel rotations simulated by a warp
 	public static final int WARP_ROTATIONS = 100;
+	// Constant multiplier for fuel usage
+	public static final int USAGE_MULTIPLIER = 100;
 
 	// Set up constants for the keyboard inputs
 	public static final String LEFT_INDICATOR_KEY = "L";
@@ -42,7 +44,7 @@ public class BikeSack {
 
 	// Define the instruments, will be used in a map to store the instruments
 	public static enum INSTRUMENTS {
-		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE, TRIP, ODOMETER
+		LEFT_INDICATOR, RIGHT_INDICATOR, HIGH_BEAM, BRAKE, FUEL, TEMPERATURE, TRIP, ODOMETER, FUEL_USAGE
 	}
 
 	// Private member variables
@@ -59,7 +61,7 @@ public class BikeSack {
    // Sensor Minimum Values
    private int brakeSenseMin = 0, fuelSenseMin = 0, highBeamSenseMin = 0;
    private int indicatorSenseMin = 0, odometerSenseMin = 0, tempSenseMin = 0;
-   private int tripSenseMin = 0;
+   private int tripSenseMin = 0, fuelUsageMin = 0;
 
    // Sensor Maximum Values
    private int brakeSenseMax = 1, highBeamSenseMax = 1, odometerSenseMax = 100, tripSenseMax = 1;
@@ -136,6 +138,7 @@ public class BikeSack {
 		case FUEL_INCREASE_KEY:
 			// Fuel Level UP
 			sensors.get(CONNECTED_SENSORS.FUEL).increase();
+			((UsageInstrument) instruments.get(INSTRUMENTS.FUEL_USAGE)).setStartNumerator(instruments.get(INSTRUMENTS.FUEL).getCurrent());
 			System.out.println("Sensor [Type= FUEL, State= " + sensors.get(CONNECTED_SENSORS.FUEL).getCurrent() + "]");
 			break;
 		case FUEL_DECREASE_KEY:
@@ -165,6 +168,7 @@ public class BikeSack {
 			sensors.get(CONNECTED_SENSORS.ODOMETER).setCurrent(WARP_ROTATIONS);
 			System.out.println(
 					"Sensor [Type= ODOMETER, State= " + sensors.get(CONNECTED_SENSORS.ODOMETER).getCurrent() + "]");
+			
 			break;
 		case TRIP_RESET_KEY:
 			sensors.get(CONNECTED_SENSORS.TRIP).toggle();
@@ -209,8 +213,10 @@ public class BikeSack {
             fuelInstUnitSymbol, fuelInstWarn, fuelInstWarnMax));
       instruments.put(INSTRUMENTS.TEMPERATURE, new RangeInstrument(tempInstMin, tempSenseMax, tempSenseInit,
             tempInstUnit, tempInstUnitSmybol, tempSenseWarn, tempInstWarnMax));
-		instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
-		instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.ODOMETER, new TextualInstrument(odometer, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.TRIP, new TextualInstrument(tripMeter, WHEEL_MULTIPLIER, "Km"));
+      instruments.put(INSTRUMENTS.FUEL_USAGE, new UsageInstrument(fuelUsageMin, "L/100Km", fuelSenseMax, 
+    		  odometerSenseMin, WHEEL_MULTIPLIER, USAGE_MULTIPLIER));
 	}
 
 // Set the sensors to have plausable defaults since we don't have real sensors
@@ -265,10 +271,12 @@ public class BikeSack {
 						instrument.setCurrent(odometer);
 
 						instruments.get(INSTRUMENTS.TRIP).setCurrent(odometer - tripMeter);
+						
 
 						sensor.setCurrent(--sensorValue);
 						System.out.println("Sensor [Type= ODOMETER, State= " + sensor.getCurrent() + "]");
 					}
+					
 					
 				// Trip meter also needs different logic as sensor does not translate directly to instrument
 				} else if (sensorName.name().equals(CONNECTED_SENSORS.TRIP.name())
@@ -281,8 +289,9 @@ public class BikeSack {
 
 						Instrument instrument = instruments.get(instrumentName);
 						instrument.setCurrent(odometer - tripMeter);
+						
 					}
-					
+										
 				// Everything else, set the instrument value to the sensor value
 				} else if (sensorName.name().equals(instrumentName.name())) {
 					Sensor sensor = sensors.get(sensorName);
@@ -296,6 +305,12 @@ public class BikeSack {
 					}
 				}
 			}
+		}
+		if (((UsageInstrument) instruments.get(INSTRUMENTS.FUEL_USAGE)).getLastNumerator() >= instruments.get(INSTRUMENTS.FUEL).getCurrent()) {
+			((UsageInstrument) instruments.get(INSTRUMENTS.FUEL_USAGE)).setUsageCurrent((double) instruments.get(INSTRUMENTS.FUEL).getCurrent(), 
+				(double) instruments.get(INSTRUMENTS.ODOMETER).getCurrent());
+		} else {
+			((UsageInstrument) instruments.get(INSTRUMENTS.FUEL_USAGE)).setStartNumerator(instruments.get(INSTRUMENTS.FUEL).getCurrent());
 		}
 	}
 
