@@ -126,7 +126,7 @@ public class Sensor {
 	 * Toggles a Sensor between minimum (off) and maximum (on) values.
 	 * If a Sensor is anywhere above the minimum value, it will set it to minimum.
 	 * Otherwise the Sensor will be set to maximum.
-	 * @throws SensorException
+	 * @throws SensorException If value is attempted to be set outside min/max range
 	 */
 	public void toggle() throws SensorException {
 		if (getCurrent() > getMin()) {
@@ -140,8 +140,8 @@ public class Sensor {
 	 * Toggles a Sensor between minimum (off) and specified (on) value.
 	 * If a Sensor is anywhere above the minimum value, it will set it to minimum.
 	 * Otherwise the Sensor will be set to the specified value.
-	 * @param onValue
-	 * @throws SensorException
+	 * @param onValue The value that will be considered as "on" when toggling
+	 * @throws SensorException If value is attempted to be set outside min/max range
 	 */
 	public void toggle(int onValue) throws SensorException {
         if (getCurrent() > getMin()) {
