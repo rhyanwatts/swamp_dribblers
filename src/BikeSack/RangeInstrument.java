@@ -1,11 +1,11 @@
 package BikeSack;
 
 /**
- * <h1>Bike Sack RangeInstrument</h1> This Class extends BikeSack's abstract
+ * <h1>Bike Sack RangeInstrument extends BikeSack's abstract
  * 'Instrument' and allows for an instrument with a proportional value. It can
- * also display a selective range to only show relevant information.
+ * also display a selective range to only show relevant information.</h1>
  * 
- * <h2>Example usage:</h2> Temperature Instrument with minimum value 0, maximum
+ * <h2>Usage Example:</h2> Temperature Instrument with minimum value 0, maximum
  * 125, current value 22 and units are Celsius:
  * <p>
  * {@code Instrument tempgauge = new
@@ -20,15 +20,17 @@ package BikeSack;
  * 
  * <h2>Useful Methods include:</h2>
  * <p>
- * getPercentage() Returns the current value - as a percentage of the range
+ * {@code getPercentage()} Returns the current value - as a percentage of the
+ * range
  * </p>
  * <p>
- * getPercentageString() Returns the current value - as a percentage of the
- * range, with a % symbol and in string format
+ * {@code getPercentageString()} Returns the current value - as a percentage of
+ * the range, with a % symbol and in string format
  * </p>
  * <p>
- * toString() Returns a 10char sting filled proportionally with the percentage
- * state of the instrument. e.g. 75% of range is returned as "*******---"
+ * {@code toString()} Returns a 10char sting filled proportionally with the
+ * percentage state of the instrument. e.g. 75% of range is returned as
+ * {@code *******---}
  * </p>
  * 
  * @author Matthew Flack s3493444
@@ -47,7 +49,8 @@ public class RangeInstrument extends Instrument {
    private String unit, unitSymbol;
 
    /**
-    * Constructs an instrument that displays current value, within a defined range.
+    * Constructs an instrument that displays the current value, maximum value of
+    * the range is defined, minimum value of the range will be zero.
     * 
     * @param max
     *           The maximum display range of this instrument
@@ -58,7 +61,8 @@ public class RangeInstrument extends Instrument {
    }
 
    /**
-    * Constructs an instrument that displays current value, within a defined range.
+    * Constructs an instrument that displays current value, minimum and maximum
+    * value of the range are both defined.
     * 
     * @param minimum
     *           the minimum display range of this instrument
@@ -72,7 +76,9 @@ public class RangeInstrument extends Instrument {
    }
 
    /**
-    * Constructs an instrument that displays current value, within a defined range.
+    * Constructs an instrument that displays current value, minimum and maximum
+    * value of the range are both defined. An initial display value is defined for
+    * instrument initialisation before it has received a value update.
     * 
     * @param minimum
     *           the minimum display range of this instrument
@@ -87,7 +93,10 @@ public class RangeInstrument extends Instrument {
    }
 
    /**
-    * Constructs an instrument that displays current value, within a defined range.
+    * Constructs an instrument that displays current value, minimum and maximum
+    * value of the range are both defined. An initial display value is defined for
+    * instrument initialisation before it has received a value update. Unit name
+    * and symbol are defined.
     * 
     * @param minimum
     *           the minimum display range of this instrument
@@ -108,7 +117,11 @@ public class RangeInstrument extends Instrument {
    }
 
    /**
-    * Constructs an instrument that displays current value, within a defined range.
+    * Constructs an instrument that displays current value, minimum and maximum
+    * value of the range are both defined. An initial display value is defined for
+    * instrument initialisation before it has received a value update. Unit name
+    * and symbol are defined. A warning set point and behaviour (minimum or maximum
+    * warning) is also defined.
     * 
     * @param minimum
     *           the minimum display range of this instrument
@@ -188,7 +201,7 @@ public class RangeInstrument extends Instrument {
 
    /**
     * 
-    * @return value of current warning trigger or set point
+    * @return value of current warning trigger value or set point
     */
    public int getWarning() {
       return warningSetPoint;
@@ -197,7 +210,8 @@ public class RangeInstrument extends Instrument {
    /**
     * 
     * @param maxWarning
-    *           True if maximum warning trigger. False if Minimim warning trigger.
+    *           True if the warning is a maximum value. False if the warning is a
+    *           minimum value.
     */
    public void setMaxWarning(boolean maxWarning) {
       this.maxWarning = maxWarning;
@@ -252,10 +266,12 @@ public class RangeInstrument extends Instrument {
    }
 
    /**
-    * @return Instrument value as a proportion of the instrument's range, in basic bar graph format.
-    * <p>e.g. Range is 100 - 200 and value is 150</p>
-    * {@code RangeInstrument.toString()} returns: "*****-----"
-    * 
+    * @return Instrument value as a proportion of the instrument's range, in basic
+    *         bar graph format.
+    *         <p>
+    *         e.g. Range is 100 - 200 and value is 150
+    *         </p>
+    *         {@code RangeInstrument.toString()} returns: {@code *****-----}
     * 
     */
    @Override
