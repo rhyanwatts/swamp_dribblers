@@ -37,5 +37,4 @@ public class TextualInstrument extends Instrument {
 	public String toFormattedString(String format) {
 		return String.format(format, (double) super.getCurrent() / multiplier, unit);
 	}
-
 }
