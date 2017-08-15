@@ -1,17 +1,16 @@
 package BikeSack;
 /**
- * <h1>Bike Sack BooleanInstrument Class</h1> The Boolean Instrument Class extends
- * BikeSack's abstract 'Instrument'
+ * The BooleanInstrument Class extends BikeSack's abstract {@link Instrument}
  * 
- * This class allows for an instrument with a Boolean value. 
+ * This class allows for an {@link Instrument} with a Boolean value. 
  * 
- * <h2>Useful Methods include:
- * <h2>setCurrent() Sets the current value to a value of 0 or 1 to represent a boolean value or throw 
+ * <h2>Useful Methods include:</h2>
+ * {@code setCurrent()} Sets the current value to a value of 0 or 1 to represent a boolean value or throw 
  * exception if not trying to set value that does not represent boolean values
  *  
- * toString() Returns a "On" for value of 1 or "Off" for value of 0
+ * {@code toString()} Returns a "On" for value of 1 or "Off" for value of 0
  * 
- * @author 
+ * @author DevTeam
  * @since 9/8/2017
  * @version 0.1
  */

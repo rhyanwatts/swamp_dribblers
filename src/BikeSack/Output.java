@@ -1,8 +1,8 @@
 package BikeSack;
 
 /**
- * <h1>Bike Sack Output defines an object that will control any of the
- * outputs within the BikeSack motorcycle system.</h1>
+ * Output defines an object that will control any of the outputs within the
+ * {@link BikeSack} motorcycle system. Primarily intended for controlling lights.
  * 
  * <h2>Use as a dimmable (PWM) type output</h2> Value for this object can range
  * between 0 - 255 for use with PWM output for dimming. The output can use
@@ -21,8 +21,8 @@ package BikeSack;
  * </p>
  * 
  * <p>
- * -if {@code Output.setIncrementStep(255);} is used, then {@code Output.inc();} and
- * {@code Output.dec();} will also turn the output on/off.
+ * -if {@code Output.setIncrementStep(255);} is used, then {@code Output.inc();}
+ * and {@code Output.dec();} will also turn the output on/off.
  * </p>
  * 
  * @author Aidan Holmes s3355003

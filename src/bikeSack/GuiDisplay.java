@@ -33,7 +33,7 @@ public class GuiDisplay extends Display {
 	public JButton btnLowBeam;
 	public JButton btnHighBeam;
 
-	/**
+	/*
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
