@@ -74,24 +74,23 @@ public class ConsoleDisplay extends Display {
       System.out.println(
             "|" + pad("[" + instruments.get(INSTRUMENTS.BRAKE).toString().toUpperCase() + "]", 36) + pad("|", 33));
       System.out.println("|" + pad("|", 69));
-      System.out.println("|" + pad("TEMP", 9) + pad("HEADLIGHTS", 29) + pad("FUEL",23) + pad("|",8));
-      System.out.println("|" + pad("+----+", 10) + pad("+-----------+",30) + pad("+----+",22) + pad("|", 7));
+      System.out.println("|" + pad("TEMP", 9) + pad("HEADLIGHTS", 29) + pad("FUEL", 22) + pad("|", 9));
+      System.out.println("|" + pad("+----+", 10) + pad("+-----------+", 30) + pad("+----+", 21) + pad("|", 8));
       System.out.println("|"
-            + pad(instruments.get(INSTRUMENTS.TEMPERATURE).getCurrent() +
-                  ((RangeInstrument) instruments.get(INSTRUMENTS.TEMPERATURE)).getUnitSymbol(),9) +   
-            pad("[" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString().toUpperCase() + "]",27) + 
-            pad(((RangeInstrument)instruments.get(INSTRUMENTS.FUEL)).getPercentageString(), 25) + pad("|", 8));
+            + pad(instruments.get(INSTRUMENTS.TEMPERATURE).getCurrent()
+                  + ((RangeInstrument) instruments.get(INSTRUMENTS.TEMPERATURE)).getUnitSymbol(), 9)
+            + pad("[" + instruments.get(INSTRUMENTS.HIGH_BEAM).toString().toUpperCase() + "]", 27) + pad("|", 33));
       System.out.println("|" + pad("[" + temperature + "]", 13) + pad("[" + fuelLevel + "]", 52) + pad("|", 4));
       System.out.println("|" + pad("min", 2) + pad("max", 11) + pad("0%", 39) + pad("50%", 8) + pad("100%|", 8));
       System.out.println("|" + pad("|", 69));
       System.out.println("|" + pad("ODOMETER: " + instruments.get(INSTRUMENTS.ODOMETER), 16)
-            + pad("TRIP METER: " + instruments.get(INSTRUMENTS.TRIP), 25) + pad("FUEL USAGE:XXL/XXXKM ", 27)
-            + pad("|", 1));
+            + pad("TRIP METER: " + instruments.get(INSTRUMENTS.TRIP), 25)
+            + pad("FUEL USAGE:" + instruments.get(INSTRUMENTS.FUEL_USAGE), 27) + pad("|", 1));
 
       // Control Sections
       System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
       System.out.println("|" + pad("CONTROLS", 37) + pad("|", 32));
-      System.out.println("|  L= Left Indicator     H= Headlights LO/HI       R= RightIndicator |");
+      System.out.println("|  L= Left Indicator     H= Headlights LO/HI       R= RightIndicator  |");
       System.out.println("|" + pad("B= Brakes ON/OFF", 41) + pad("|", 28));
       System.out.println("|" + pad("T= Trip Reset (Will stay at zero until released)", 60) + pad("|", 9));
       System.out.println("|" + pad("+= Engine Temp UP", 19) + pad("-= Engine Temp DOWN", 47) + pad("|", 3));
