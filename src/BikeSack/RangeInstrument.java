@@ -1,9 +1,9 @@
 package BikeSack;
 
 /**
- * <h1>Bike Sack RangeInstrument extends BikeSack's abstract
- * 'Instrument' and allows for an instrument with a proportional value. It can
- * also display a selective range to only show relevant information.</h1>
+ * RangeInstrument extends BikeSack's abstract {@link Instrument} and allows for
+ * an instrument with a proportional value. It can also show a selective
+ * range to better display a relevant information.
  * 
  * <h2>Usage Example:</h2> Temperature Instrument with minimum value 0, maximum
  * 125, current value 22 and units are Celsius:
