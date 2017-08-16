@@ -33,8 +33,8 @@ package BikeSack;
  * {@code *******---}
  * </p>
  * 
- * @author Matthew Flack s3493444
- * @author Aidan Holmes s3355003
+ * @author DevTeam1
+ * @author DevTeam2
  * @since 30/7/2017
  * @version 1.0
  */
