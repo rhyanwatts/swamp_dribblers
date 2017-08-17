@@ -3,6 +3,7 @@ package BikeSack;
 /**
  * Provides an <code>Instrument</code> which as oriented around displaying text.
  * @see Instrument
+ * @see TextualInstrumnent
  */
 public class TextualInstrument extends Instrument {
 

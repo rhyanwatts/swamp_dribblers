@@ -3,11 +3,9 @@ package BikeSack;
  * <h1>Bike Sack HeadlightInstrument Class</h1> The Headlight Instrument Class extends
  * BikeSack's 'Instrument'
  * 
- * This class allows for an instrument with a Boolean value. 
+ * This class allows for an instrument with a Boolean value with status of low and high. 
  * 
  * <h2>Useful Methods include:</h2>
- * {@code setCurrent()} Sets the current value to a value of 0 or 1 to represent a boolean value or throw 
- * exception if not trying to set value that does not represent boolean values
  *  
  * {@code toString()} Returns a "High" for value of 1 or "Low" for value of 0
  * 
@@ -19,12 +17,19 @@ public class HeadlightInstrument extends BooleanInstrument {
 
 	private int min;
 	private int max;
-
+	
+	/**
+	 * Construct a new headlightInstrument object with Min = 0 and Max = 1
+	 */
 	public HeadlightInstrument() {
 		min = 0;
 		max = 1;
 	}
-	//Override toString for headlight status
+	/**
+	 * Return a string to represent the current value of the HeadlightInstrument
+	 * Low when current = 0
+	 * High when current = 1
+	 */
 	@Override
 	public String toString() {
 		int current = super.getCurrent();
