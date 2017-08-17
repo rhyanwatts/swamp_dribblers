@@ -91,7 +91,7 @@ public class ConsoleDisplay extends Display {
       // Control Sections
       System.out.println("+" + String.format("%68s", "").replace(' ', '-') + "+");
       System.out.println("|" + pad("CONTROLS", 37) + pad("|", 32));
-      System.out.println("|  L= Left Indicator     H= Headlights LO/HI       R= RightIndicator  |");
+      System.out.println("|  L= Left Indicator     H= Headlights LO/HI      R= RightIndicator  |");
       System.out.println("|" + pad("B= Brakes ON/OFF", 41) + pad("|", 28));
       System.out.println("|" + pad("T= Trip Reset (Will stay at zero until released)", 60) + pad("|", 9));
       System.out.println("|" + pad("+= Engine Temp UP", 19) + pad("-= Engine Temp DOWN", 47) + pad("|", 3));
