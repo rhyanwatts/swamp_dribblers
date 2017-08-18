@@ -36,8 +36,6 @@ public class BooleanInstrument extends Instrument {
      * 
      * @param current
      *            The new current to set the instrument to.
-     * @throws SensorException
-     *             If new current is not min or max value
      */
     public void setCurrent(int current) {
         if (current == min) {
