@@ -11,7 +11,8 @@ import BikeSack.BikeSack.INSTRUMENTS;
  * A Map of Instrument objects is passed to ConsoleDisplay, which displays
  * values based on the type of instrument (temperature, fuel, odometer etc.)
  * 
- * @author Ben Denford
+ * @author SwampDribblers
+ * @since 9/8/2017
  * @version 1.0
  */
 public class ConsoleDisplay extends Display {

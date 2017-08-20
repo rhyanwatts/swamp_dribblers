@@ -5,7 +5,8 @@ package BikeSack;
  * state of the motorbike. These are currently manipulated via keyboard input,
  * but could also be connected to real sensors.
  * 
- * @author DevTeam1
+ * @author SwampDribblers
+ * @since 9/8/2017
  * @version 1.0
  */
 public class Sensor {

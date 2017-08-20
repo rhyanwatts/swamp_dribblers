@@ -3,7 +3,8 @@ package BikeSack;
 /**
  * Exception that is thrown when the Sensor is set to an invalid value
  * 
- * @author DevTeam1
+ * @author SwampDribblers
+ * @since 9/8/2017
  * @version 1.0
  */
 @SuppressWarnings("serial")
