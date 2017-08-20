@@ -11,9 +11,15 @@ package BikeSack;
  * 
  * {@code toString()} Returns a "On" for value of 1 or "Off" for value of 0
  * 
- * @author DevTeam
+ * @see Instrument
+ * @see RangeInstrument
+ * @see TextualInstrument
+ * @see UsageInstrument
+ * @see HeadlightInstrument
+ * 
+ * @author SwampDribblers
  * @since 9/8/2017
- * @version 0.1
+ * @version 1.0
  */
 public class BooleanInstrument extends Instrument {
 
