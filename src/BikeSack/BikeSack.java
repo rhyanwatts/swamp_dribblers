@@ -97,6 +97,10 @@ public class BikeSack {
      */
     public static final String ODOMETER_WARP_KEY = "W";
     /**
+     * The menu option which displays the Full graphical GUI
+     */
+    public static final String SHOW_FULL_GUI = "G";
+    /**
      * The menu option which selects to exit the application
      */
     public static final String EXIT_KEY = "X";
@@ -345,6 +349,10 @@ public class BikeSack {
             sensors.get(CONNECTED_SENSORS.TRIP).toggle();
             System.out.println("Sensor [Type= TRIP, State= " + sensors.get(CONNECTED_SENSORS.TRIP).getCurrent() + "]");
             break;
+        case SHOW_FULL_GUI:
+        	GuiDisplay display = new GuiDisplay();
+        	display.show(instruments);
+        	break;
         case EXIT_KEY:
             // Exit application
             break;
