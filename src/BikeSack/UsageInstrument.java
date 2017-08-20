@@ -19,7 +19,7 @@ package BikeSack;
  * numerator
  * </p>
  * 
- * @author DevTeam2
+ * @author SwampDribblers
  * @since 11/7/2017
  * @version 1.0
  * 

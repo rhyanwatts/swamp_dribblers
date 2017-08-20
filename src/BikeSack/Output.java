@@ -26,7 +26,7 @@ package BikeSack;
  * and {@code Output.dec();} will also turn the output on/off.
  * </p>
  * 
- * @author DevTeam1
+ * @author SwampDribblers
  * @since 11/7/2017
  * @version 1.0
  */

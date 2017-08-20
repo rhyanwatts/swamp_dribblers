@@ -11,7 +11,7 @@ package BikeSack;
  * 
  * {@code toString()} Returns a "High" for value of 1 or "Low" for value of 0
  * 
- * @author DevTeam2
+ * @author SwampDribblers
  * @since 9/8/2017
  * @version 1.0
  * 
